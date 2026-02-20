@@ -23,8 +23,7 @@
 html {
     overscroll-behavior-y: none;
     background-color: #000;
-    height: 100%;
-    overflow: hidden;
+    min-height: 100vh;
 }
 
 body {
@@ -34,8 +33,7 @@ body {
     color: var(--text-main);
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
 
-    height: 100%;
-    overflow: hidden;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     overscroll-behavior-y: none;
@@ -50,12 +48,12 @@ body {
 
 #bg-wrapper {
     position: fixed;
-    top: -50px;
-    /* Примусово виходимо за межі екрану, щоб покрити "острівець" і "смужку" */
-    bottom: -50px;
-    left: -50px;
-    right: -50px;
-    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('pzz.jpg') center / cover no-repeat;
+    top: -100px;
+    bottom: -100px;
+    left: -100px;
+    right: -100px;
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('pzz.jpg') center / cover no-repeat;
+    background-color: #1c1c1e;
     z-index: -2;
     pointer-events: none;
 }
