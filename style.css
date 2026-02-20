@@ -20,31 +20,38 @@
     box-sizing: border-box;
 }
 
-html {
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('pzz.jpg') center center / cover no-repeat fixed;
-    height: 100%;
-    overscroll-behavior-y: none;
-}
-
+html,
 body {
     margin: 0;
     padding: 0;
-    background: transparent;
+    width: 100%;
+    /* Дозволяємо браузеру нормально розраховувати висоту для скролу */
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    background-color: #000;
     color: var(--text-main);
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
+    /* Зняли жорсткі блокування скролу, бо вони ламають поведінку iOS панелей */
+    -webkit-tap-highlight-color: transparent;
+}
 
-    min-height: 100%;
-    /* Додаємо резервний варіант для старих iOS */
-    min-height: -webkit-fill-available;
+body {
     display: flex;
     justify-content: center;
-    overscroll-behavior-y: none;
+}
 
-    /* Монолітність. Заборона виділення та зуму */
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: none;
-    -webkit-tap-highlight-color: transparent;
+/* Окремий шар для фону — найнадійніший метод для Safari */
+#bg-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    /* Фолбек для Safari, щоб точно покрити весь екран під панелями */
+    height: 100dvh;
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('pzz.jpg') center center / cover no-repeat;
+    z-index: -10;
+    pointer-events: none;
 }
 
 
