@@ -21,18 +21,20 @@
 }
 
 html {
-    background-color: transparent;
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('pzz.jpg') center / cover no-repeat;
     overscroll-behavior-y: none;
+    height: 100%;
 }
 
 body {
     margin: 0;
     padding: 0;
+    /* Тло спадкується від html або дублюється тут для сумісності */
+    background: transparent;
     color: var(--text-main);
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
 
     min-height: 100vh;
-    min-height: 100dvh;
     display: flex;
     justify-content: center;
     overscroll-behavior-y: none;
@@ -42,20 +44,6 @@ body {
     -webkit-user-select: none;
     touch-action: none;
     -webkit-tap-highlight-color: transparent;
-}
-
-body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    height: 100dvh;
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('pzz.jpg') center / cover no-repeat;
-    background-color: #000;
-    z-index: -10;
-    pointer-events: none;
 }
 
 
