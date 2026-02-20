@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survival Portfolio | Візитка</title>
+
+    <!-- Open Graph Meta Tags (Для красивих прев'ю в Telegram) -->
+    <meta property="og:title" content="Вцілілий | Вайбкодер">
+    <meta property="og:description"
+        content="Створюю потужні Telegram-екосистеми та сучасні веб-додатки під ключ. Перетворюю ідеї на технічні рішення.">
+    <meta property="og:image" content="avatarka.JPG">
+    <meta property="og:type" content="website">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body data-lang="uk">
+    <!-- Canvas для ефекту попелу/пилу -->
+    <canvas id="ash-canvas"></canvas>
+
+    <main class="container">
+        <!-- Шапка сайту з перемикачем мов -->
+        <header class="header animate-on-load delay-1">
+            <!-- Перемикач мови -->
+            <div class="lang-switcher">
+                <button class="lang-btn active" data-lang-target="uk">UK</button>
+                <span class="divider">|</span>
+                <button class="lang-btn" data-lang-target="en">EN</button>
+            </div>
+        </header>
+
+        <!-- Головна картка профілю -->
+        <section class="profile-card glass-panel tilt animate-on-load delay-2">
+            <div class="profile-header">
+                <div class="avatar-container">
+                    <!-- Аватарка (круглі кути ТГ) -->
+                    <img src="avatarka.JPG" alt="Avatar" class="avatar">
+                </div>
+                <div class="profile-info">
+                    <h2 class="name lang-uk">Вцілілий</h2>
+                    <h2 class="name lang-en">Survivor</h2>
+                    <p class="nickname">@pixilvania</p>
+                </div>
+            </div>
+
+            <!-- Маркетингове Біо -->
+            <p class="bio lang-uk">
+                <span class="highlight">Вайбкодер.</span> Створюю потужні Telegram-екосистеми та сучасні веб-додатки під
+                ключ. Перетворюю ідеї на технічні рішення, які виживають у будь-якому хаосі та гарантовано приносять
+                результат.
+            </p>
+            <p class="bio lang-en">
+                <span class="highlight">Vibecoder.</span> Building robust Telegram ecosystems and modern turnkey web
+                applications. I turn ideas into technical solutions that survive any chaos and guarantee results.
+            </p>
+
+            <!-- Кнопка розмови в ЛС -->
+            <div class="profile-actions">
+                <a href="https://t.me/pixilvania" class="btn-small" target="_blank">
+                    <span class="lang-uk">Надіслати повідомлення</span>
+                    <span class="lang-en">Send Message</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Центральна велика кнопка (Бот) -->
+        <div class="main-action-wrapper animate-on-load delay-3">
+            <a href="https://t.me/undeadcapital044bot" class="btn-main tilt" target="_blank">
+                <div class="btn-main-content">
+                    <i class="fas fa-gamepad bot-icon"></i>
+                    <div class="btn-text">
+                        <span class="btn-title lang-uk">Грати в UC044</span>
+                        <span class="btn-title lang-en">Play UC044</span>
+
+                        <span class="btn-subtitle lang-uk">Текстова MUD RPG гра в Telegram</span>
+                        <span class="btn-subtitle lang-en">Text-based MUD RPG game in Telegram</span>
+                    </div>
+                </div>
+                <i class="fas fa-chevron-right arrow-icon"></i>
+            </a>
+        </div>
+
+        <!-- Список посилань і проєктів (Об'єднані в один блок ТГ) -->
+        <div class="links-section tilt animate-on-load delay-4">
+            <a href="https://t.me/+CkdKrR6NlYdmNjky" class="link-card" target="_blank">
+                <div class="card-icon tg-group">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="card-content">
+                    <h4 class="lang-uk">Моя Група (Спільнота)</h4>
+                    <h4 class="lang-en">My Community Group</h4>
+                    <p class="lang-uk">Обговорення, деталі та виживання разом</p>
+                    <p class="lang-en">Discussions, details, and surviving together</p>
+                </div>
+                <i class="fas fa-chevron-right external-icon"></i>
+            </a>
+
+            <a href="#" class="link-card">
+                <div class="card-icon project-1">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div class="card-content">
+                    <h4 class="lang-uk">Мої сайти та боти</h4>
+                    <h4 class="lang-en">My Websites & Bots</h4>
+                    <p class="lang-uk">Кейси з розробки для Telegram та Web</p>
+                    <p class="lang-en">Development cases for Telegram and Web</p>
+                </div>
+                <i class="fas fa-chevron-right external-icon"></i>
+            </a>
+
+            <a href="#" class="link-card">
+                <div class="card-icon project-2">
+                    <i class="fas fa-palette"></i>
+                </div>
+                <div class="card-content">
+                    <h4 class="lang-uk">Художнє портфоліо</h4>
+                    <h4 class="lang-en">Art Portfolio</h4>
+                    <p class="lang-uk">Мої малюнки та арти, бо я ще й художник</p>
+                    <p class="lang-en">My drawings and art, because I'm also an artist</p>
+                </div>
+                <i class="fas fa-chevron-right external-icon"></i>
+            </a>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
