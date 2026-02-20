@@ -22,9 +22,7 @@
 
 html {
     overscroll-behavior-y: none;
-    /* Бездоганне заливання всього екрану на iOS (iPhone) під острівцем та home-смужкою */
-    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('pzz.jpg') center / cover no-repeat;
-    background-color: #1c1c1e;
+    background-color: #000;
     height: 100%;
     overflow: hidden;
 }
@@ -48,6 +46,18 @@ body {
     touch-action: none;
     /* Жодного зуму чи скролу */
     -webkit-tap-highlight-color: transparent;
+}
+
+#bg-wrapper {
+    position: fixed;
+    top: -50px;
+    /* Примусово виходимо за межі екрану, щоб покрити "острівець" і "смужку" */
+    bottom: -50px;
+    left: -50px;
+    right: -50px;
+    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('pzz.jpg') center / cover no-repeat;
+    z-index: -2;
+    pointer-events: none;
 }
 
 /* Логіка перемикання мов */
