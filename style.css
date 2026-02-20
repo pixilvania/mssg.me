@@ -18,11 +18,16 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
+}
+
+html {
+    overscroll-behavior-y: none;
+    /* Заборона пружинного скролу на iOS (Bounce effect) */
 }
 
 body {
-    background-color: #000;
+    background-color: #1c1c1e;
+    /* Темний колір на випадок, якщо скрол прорветься */
     color: var(--text-main);
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
     min-height: 100vh;
@@ -30,25 +35,43 @@ body {
     justify-content: center;
     position: relative;
     overflow-x: hidden;
+    overscroll-behavior-y: none;
+    /* Заборона гумового скролу */
 
-    /* Використовуємо твоє фото bg.png */
+    /* Монолітність. Заборона виділення та зуму */
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: pan-y;
+    -webkit-tap-highlight-color: transparent;
+    /* Відключення "синьої рамки" на Android */
+}
+
+/* Збільшений фон, щоб при скролі не було видно чорних і білих країв знизу/зверху */
+body::before {
+    content: '';
+    position: fixed;
+    top: -5vh;
+    left: -5vw;
+    width: 110vw;
+    height: 110vh;
     background-image: url('bg.jpg.png');
     background-size: cover;
     background-position: center;
-    background-attachment: fixed;
     background-repeat: no-repeat;
+    z-index: -2;
 }
 
-/* Легке затемнення фону для читабельності, як у Telegram */
-body::before {
+/* Легке затемнення фону для читабельності */
+body::after {
     content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    position: fixed;
+    top: -5vh;
+    left: -5vw;
+    width: 110vw;
+    height: 110vh;
     background: rgba(0, 0, 0, 0.2);
-    z-index: 0;
+    z-index: -1;
+    pointer-events: none;
 }
 
 /* Логіка перемикання мов */
@@ -73,7 +96,8 @@ body[data-lang="en"] .lang-uk {
 .container {
     width: 100%;
     max-width: 480px;
-    padding: 20px;
+    /* Відступи для зони екрану iPhone (Safe Area) */
+    padding: max(20px, env(safe-area-inset-top)) 20px max(20px, env(safe-area-inset-bottom));
     position: relative;
     z-index: 1;
     display: flex;
@@ -425,4 +449,14 @@ a {
 
 .delay-4 {
     animation-delay: 0.4s;
+}
+
+/* Анімація натискання (Ripple-like effect для карток і кнопок) */
+.link-card:active,
+.btn-small:active,
+.main-action-wrapper:active,
+.lang-btn:active {
+    transform: scale(0.97);
+    filter: brightness(1.2);
+    transition: transform 0.1s ease-out, filter 0.1s ease-out;
 }
