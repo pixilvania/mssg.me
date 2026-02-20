@@ -23,27 +23,34 @@
 html {
     overscroll-behavior-y: none;
     /* Заборона пружинного скролу на iOS (Bounce effect) */
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
 body {
     background-color: #1c1c1e;
-    /* Темний колір на випадок, якщо скрол прорветься */
     color: var(--text-main);
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
+
+    /* Жорстке блокування скролу та розміру */
+    position: fixed;
+    width: 100%;
+    height: 100%;
     min-height: 100vh;
+    min-height: -webkit-fill-available;
+    overflow: hidden;
     display: flex;
     justify-content: center;
-    position: relative;
-    overflow-x: hidden;
     overscroll-behavior-y: none;
 
     /* Монолітність. Заборона виділення та зуму */
     user-select: none;
     -webkit-user-select: none;
-    touch-action: pan-y;
-    /* Дозволяємо ТІЛЬКИ вертикальний скрол, жодних зумів */
+    touch-action: none;
+    /* Жодного зуму чи скролу */
     -webkit-tap-highlight-color: transparent;
-    /* Відключення "синьої рамки" на Android */
 }
 
 /* Збільшений фон, щоб при скролі не було видно чорних і білих країв знизу/зверху */
@@ -96,12 +103,15 @@ body[data-lang="en"] .lang-uk {
 .container {
     width: 100%;
     max-width: 480px;
+    height: 100%;
     /* Відступи для зони екрану iPhone (Safe Area) */
     padding: max(20px, env(safe-area-inset-top)) 20px max(20px, env(safe-area-inset-bottom));
     position: relative;
     z-index: 1;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    /* Центруємо контент по вертикалі, щоб він містився на екрані */
     gap: 16px;
     /* Менший gap, більш компактно як в ТГ */
 }
