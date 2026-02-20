@@ -161,7 +161,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const interactiveElements = document.querySelectorAll('a, button');
     interactiveElements.forEach(el => {
         el.addEventListener('click', () => {
-            if (navigator.vibrate) navigator.vibrate(50);
+            if (navigator.vibrate) {
+                // Відчутна віддача на Андроїді. На iOS (iPhone) API вібрації заблоковано самою Apple.
+                navigator.vibrate(80);
+            }
         });
     });
 });
