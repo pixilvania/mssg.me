@@ -21,20 +21,19 @@
 }
 
 html {
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('pzz.jpg') center / cover no-repeat;
+    background-color: #000;
     overscroll-behavior-y: none;
-    height: 100%;
 }
 
 body {
     margin: 0;
     padding: 0;
-    /* Тло спадкується від html або дублюється тут для сумісності */
     background: transparent;
     color: var(--text-main);
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
 
     min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
     justify-content: center;
     overscroll-behavior-y: none;
@@ -44,6 +43,19 @@ body {
     -webkit-user-select: none;
     touch-action: none;
     -webkit-tap-highlight-color: transparent;
+}
+
+/* Background image that guarantees full screen coverage and goes under iOS toolbars */
+body::before {
+    content: '';
+    position: fixed;
+    top: -5vh;
+    left: -5vw;
+    width: 110vw;
+    height: 110vh;
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('pzz.jpg') center / cover no-repeat;
+    z-index: -10;
+    pointer-events: none;
 }
 
 
