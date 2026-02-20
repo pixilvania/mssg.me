@@ -23,10 +23,6 @@
 html {
     overscroll-behavior-y: none;
     /* Заборона пружинного скролу на iOS (Bounce effect) */
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
 }
 
 body {
@@ -37,17 +33,15 @@ body {
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+    position: relative;
+    overflow-x: hidden;
     overscroll-behavior-y: none;
 
     /* Монолітність. Заборона виділення та зуму */
     user-select: none;
     -webkit-user-select: none;
-    touch-action: none;
-    /* ЦЕ повністю вбиває свайпи, скроли та зуми на iOS */
+    touch-action: pan-y;
+    /* Дозволяємо ТІЛЬКИ вертикальний скрол, жодних зумів */
     -webkit-tap-highlight-color: transparent;
     /* Відключення "синьої рамки" на Android */
 }
@@ -55,11 +49,11 @@ body {
 /* Збільшений фон, щоб при скролі не було видно чорних і білих країв знизу/зверху */
 body::before {
     content: '';
-    position: absolute;
-    top: -5%;
-    left: -5%;
-    width: 110%;
-    height: 110%;
+    position: fixed;
+    top: -5vh;
+    left: -5vw;
+    width: 110vw;
+    height: 110vh;
     background-image: url('pzz.png');
     background-size: cover;
     background-position: center;
@@ -70,11 +64,11 @@ body::before {
 /* Легке затемнення фону для читабельності */
 body::after {
     content: '';
-    position: absolute;
-    top: -5%;
-    left: -5%;
-    width: 110%;
-    height: 110%;
+    position: fixed;
+    top: -5vh;
+    left: -5vw;
+    width: 110vw;
+    height: 110vh;
     background: rgba(0, 0, 0, 0.2);
     z-index: -1;
     pointer-events: none;
