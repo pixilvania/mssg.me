@@ -73,7 +73,8 @@ body[data-lang="en"] .lang-uk {
     width: 100%;
     max-width: 480px;
     min-height: 100vh;
-    min-height: 100dvh;
+    min-height: calc(100dvh + 2px);
+    /* +2px щоб Safari мав що скролити і згорнув свої бари */
     padding: max(20px, env(safe-area-inset-top)) 20px max(20px, env(safe-area-inset-bottom));
     position: relative;
     z-index: 2;
