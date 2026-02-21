@@ -35,7 +35,7 @@ body {
     padding: 0;
     width: 100%;
     min-height: 100vh;
-    min-height: 100dvh;
+    min-height: 100lvh;
     background: transparent;
     /* Фактичний фон буде у псевдоелемента */
     color: var(--text-main);
@@ -56,15 +56,21 @@ body {
 body::before {
     content: '';
     position: fixed;
-    top: -100px;
-    bottom: -100px;
-    left: -100px;
-    right: -100px;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100lvh;
+    /* Магія тут: lvh гарантує максимальну висоту екрана, залізаючи ПІД панелі */
     z-index: -2;
     /* Нижче за canvas */
     background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
         url('Gemini_Generated_Image_2dgb6p2dgb6p2dgb.png') center center / cover no-repeat;
     background-color: #000;
+    pointer-events: none;
+    transform: translateZ(0);
+    /* Апаратне прискорення */
+    will-change: transform;
 }
 
 
@@ -92,7 +98,7 @@ body[data-lang="en"] .lang-uk {
     width: 100%;
     max-width: 480px;
     min-height: 100vh;
-    min-height: calc(100dvh + 2px);
+    min-height: calc(100lvh + 2px);
     /* +2px щоб Safari мав що скролити і згорнув свої бари */
 
     /* Збільшуємо padding щоб контент не залазив під бари, але сам контейнер був під ними */
