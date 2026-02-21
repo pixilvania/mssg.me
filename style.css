@@ -49,9 +49,6 @@ body {
     left: 0;
     width: 100%;
     height: 100vh;
-    /* Фолбек для старих браузерів */
-    height: 100dvh;
-    /* Динамічна висота, яка враховує системні панелі */
     background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
         url('pzz.jpg') center center / cover no-repeat;
     z-index: 0;
