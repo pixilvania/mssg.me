@@ -56,11 +56,10 @@ body {
 body::before {
     content: '';
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    height: 100dvh;
+    top: -100px;
+    bottom: -100px;
+    left: -100px;
+    right: -100px;
     z-index: -2;
     /* Нижче за canvas */
     background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
