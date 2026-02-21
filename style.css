@@ -25,32 +25,41 @@ body {
     margin: 0;
     padding: 0;
     width: 100%;
-    /* Дозволяємо браузеру нормально розраховувати висоту для скролу */
     min-height: 100vh;
-    min-height: -webkit-fill-available;
-    background-color: transparent;
+    min-height: 100dvh;
+    /* Темний бекграунд замість transparent, щоб при overscroll не світилася діра */
+    background-color: #121212;
     color: var(--text-main);
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
-    /* Зняли жорсткі блокування скролу, бо вони ламають поведінку iOS панелей */
     -webkit-tap-highlight-color: transparent;
 }
 
 body {
+    overflow: hidden;
+    -webkit-user-select: none;
+    user-select: none;
     display: flex;
     justify-content: center;
 }
 
-/* Окремий шар для фону — найнадійніший метод для Safari */
+/* Окремий шар для фону */
 #bg-layer {
     position: fixed;
-    top: -5vh;
-    left: -5vw;
-    width: 110vw;
-    height: 110vh;
-    /* Фолбек для Safari, щоб точно покрити весь екран під панелями */
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('pzz.jpg') center center / cover no-repeat;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    /* Фолбек для старих браузерів */
+    height: 100dvh;
+    /* Динамічна висота, яка враховує системні панелі */
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+        url('pzz.jpg') center center / cover no-repeat;
     z-index: 0;
     pointer-events: none;
+    /* МАГІЯ ДЛЯ iOS: переносить рендер на відеокарту,
+       прибирає баг коли фон смикається або залишає смуги */
+    transform: translateZ(0);
+    will-change: transform;
 }
 
 
@@ -76,15 +85,18 @@ body[data-lang="en"] .lang-uk {
 .container {
     width: 100%;
     max-width: 480px;
-    min-height: 100vh;
-    min-height: 100dvh;
-    /* Замість height: 100% */
+    height: 100%;
+    /* Відступи для safe-area (iPhone notch / home indicator) */
     padding: max(20px, env(safe-area-inset-top)) 20px max(20px, env(safe-area-inset-bottom));
     position: relative;
     z-index: 2;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: 16px;
+    overflow-y: auto;
+    /* Дозволяємо внутрішній скрол, якщо не влізає */
+    -webkit-overflow-scrolling: touch;
 }
 
 /* Безпечне центрування в iOS: якщо контент більший за екран - його можна скролити, якщо менший - він по центру */

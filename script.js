@@ -34,6 +34,7 @@ function resizeCanvas() {
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
+
 const particlesArray = [];
 // Кількість пилинок
 const numberOfParticles = window.innerWidth < 768 ? 30 : 60;
