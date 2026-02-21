@@ -25,6 +25,9 @@ html {
     padding: 0;
     /* html ОБОВ'ЯЗКОВО transparent — тоді Safari бере фон body для блюру своїх панелей */
     background: transparent;
+    /* Змушуємо Safari думати, що під панелями є що блюрити відпочатку */
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
 }
 
 body {
@@ -33,11 +36,8 @@ body {
     width: 100%;
     min-height: 100vh;
     min-height: 100dvh;
-    /* Фон прямо на body — тільки так Safari блюрить його за своїми панелями */
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-        url('image.png') center center / cover no-repeat;
-    background-color: #000;
-    background-attachment: scroll;
+    background: transparent;
+    /* Фактичний фон буде у псевдоелемента */
     color: var(--text-main);
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
     -webkit-tap-highlight-color: transparent;
@@ -47,6 +47,25 @@ body {
     justify-content: center;
     /* Pull-to-refresh працює, але вільний скрол заблоковано */
     overflow-y: scroll;
+    /* Аналогічно з html - форсуємо рендерінг підкладки */
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+}
+
+/* Хакаємо iOS Safari: кладемо фон під body так, щоб панелі браузера могли його блюрити */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    z-index: -2;
+    /* Нижче за canvas */
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+        url('image.png') center center / cover no-repeat;
+    background-color: #000;
 }
 
 
@@ -65,7 +84,8 @@ body[data-lang="en"] .lang-uk {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 1;
+    z-index: -1;
+    /* Змінено з 1 на -1, щоб було під контентом, але над body::before (-2) */
     pointer-events: none;
 }
 
@@ -75,7 +95,14 @@ body[data-lang="en"] .lang-uk {
     min-height: 100vh;
     min-height: calc(100dvh + 2px);
     /* +2px щоб Safari мав що скролити і згорнув свої бари */
-    padding: max(20px, env(safe-area-inset-top)) 20px max(20px, env(safe-area-inset-bottom));
+
+    /* Збільшуємо padding щоб контент не залазив під бари, але сам контейнер був під ними */
+    padding: calc(max(20px, env(safe-area-inset-top)) + 40px) 20px calc(max(20px, env(safe-area-inset-bottom)) + 40px);
+
+    /* Додаємо від'ємний margin, щоб "розтягнути" контейнер під системні панелі */
+    margin-top: -40px;
+    margin-bottom: -40px;
+
     position: relative;
     z-index: 2;
     display: flex;
