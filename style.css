@@ -64,7 +64,7 @@ body::before {
     z-index: -2;
     /* Нижче за canvas */
     background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-        url('image.png') center center / cover no-repeat;
+        url('Gemini_Generated_Image_2dgb6p2dgb6p2dgb.png') center center / cover no-repeat;
     background-color: #000;
 }
 
