@@ -20,41 +20,33 @@
     box-sizing: border-box;
 }
 
-html,
+html {
+    margin: 0;
+    padding: 0;
+    /* html ОБОВ'ЯЗКОВО transparent — тоді Safari бере фон body для блюру своїх панелей */
+    background: transparent;
+}
+
 body {
     margin: 0;
     padding: 0;
     width: 100%;
     min-height: 100vh;
     min-height: 100dvh;
-    background-color: #000000;
+    /* Фон прямо на body — тільки так Safari блюрить його за своїми панелями */
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+        url('pzz.jpg') center center / cover no-repeat;
+    background-color: #000;
+    background-attachment: scroll;
     color: var(--text-main);
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
     -webkit-tap-highlight-color: transparent;
-}
-
-body {
-    /* Дозволяємо лише pull-to-refresh (потягнути вниз для оновлення) */
-    overflow-y: scroll;
     -webkit-user-select: none;
     user-select: none;
     display: flex;
     justify-content: center;
-}
-
-/* Окремий шар для фону — "ядерний" метод: від'ємні інсети щоб залізти під панелі Safari */
-#bg-layer {
-    position: fixed;
-    top: -60px;
-    bottom: -60px;
-    left: -20px;
-    right: -20px;
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-        url('pzz.jpg') center center / cover no-repeat;
-    z-index: 0;
-    pointer-events: none;
-    transform: translateZ(0);
-    will-change: transform;
+    /* Pull-to-refresh працює, але вільний скрол заблоковано */
+    overflow-y: scroll;
 }
 
 
