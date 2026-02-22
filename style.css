@@ -27,10 +27,14 @@ body {
     margin: 0;
     padding: 0;
     width: 100%;
-    /* Дозволяємо нормальний вертикальний скрол, 
-       але забороняємо горизонтальний через 120vw фону */
     height: 100%;
+    height: -webkit-fill-available;
+    /* Важливо для iOS Safari */
     overflow-x: hidden;
+    background-color: #000;
+    /* Чорний фон як база */
+    overscroll-behavior-y: none;
+    /* Запобігаємо скрол-баунсу (може показувати білі/чорні полоски) */
 }
 
 /* Ідеальний фон для iOS Safari: використовуємо виділений DOM елемент
@@ -38,20 +42,23 @@ body {
    їх дуже погано рендерить при скролі. */
 #fixed-bg {
     position: fixed;
-    top: -10vh;
-    left: -10vw;
-    width: 120vw;
-    height: 120vh;
-    /* Сучасні одиниці LHV (Large Viewport Height), які НЕ ЗМІНЮЮТЬСЯ
-       при згортанні/розгортанні адресної стрічки на iOS 15+! */
-    top: -10lvh;
-    left: -10lvw;
-    width: 120lvw;
-    height: 120lvh;
-    /* Додаємо картинку сюди. Вона буде статичною відносно вікна. */
-    background: transparent url('bg.jpg') center top / cover no-repeat;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Використовуємо SVH/LVH/DVH для точного контролю висоти в Safari */
+    height: 100dvh;
+    /* Додаємо невеликий запас для "заїзду" за системні елементи */
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    margin: -10px;
+    width: calc(100% + 20px);
+    height: calc(100dvh + 20px);
+
+    background: #000 url('bg.jpg') center top / cover no-repeat;
     z-index: -10;
     pointer-events: none;
+    transition: none;
+    /* Категорично забороняємо анімації для фону при зміні висоти */
 }
 
 body {
