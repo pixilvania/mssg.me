@@ -14,11 +14,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* Заборона виділення тексту для всіх елементів */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 /* Дозволяємо виділення тексту лише там, де це дійсно необхідно (якщо такі будуть) */
@@ -32,37 +27,42 @@
 /* Ультимативний фікс для iOS Safari */
 html {
     background-color: #000;
-    /* Заборона гумового відскоку (scroll bounce) на рівні документа */
-    overscroll-behavior-y: none;
 }
 
 body {
     margin: 0;
     padding: 0;
     min-height: 100vh;
-    background-color: #000;
+    background-color: transparent;
+    /* Робимо body прозорим, щоб бачити ::before */
+    overflow-x: hidden;
+}
+
+/* Створюємо шар фону, який виходить за межі екрану (кровотеча/overhang) */
+body::before {
+    content: '';
+    position: fixed;
+    /* Витягуємо фон на 15% вище за верхній край екрану */
+    top: -15vh;
+    left: 0;
+    width: 100vw;
+    /* Робимо фон вищим за екран, щоб компенсувати зсув */
+    height: 130vh;
+
     background-image: url('bg.jpg');
-    /* Показуємо середину фону, як просив користувач */
-    background-position: center center;
+    background-position: center top;
     background-size: cover;
     background-repeat: no-repeat;
-    /* Повертаємо scroll, щоб уникнути багу iOS з "зумом" фіксованих фонів */
-    background-attachment: scroll;
 
-    /* Заборона гумового відскоку на рівні тіла сторінки */
-    overscroll-behavior-y: none;
-    /* Заборона зуму жестами (pinch-to-zoom) */
-    touch-action: pan-x pan-y;
+    z-index: -1;
+    /* Ховаємо під контент */
+    pointer-events: none;
 }
 
 body {
     color: var(--text-main);
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
     -webkit-tap-highlight-color: transparent;
-    -webkit-user-drag: none;
-    /* Заборона перетягування */
-    -webkit-user-select: none;
-    user-select: none;
 }
 
 /* Логіка перемикання мов */
