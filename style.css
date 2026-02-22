@@ -29,38 +29,37 @@
     user-select: text;
 }
 
-/* Ультимативний фікс (Стиль Картки) для iOS Safari */
+/* Ультимативний фікс для iOS Safari */
 html {
-    /* Темно-синій колір (за запитом користувача) */
+    /* Темно-синій колір для "гумового" відскоку вгорі та внизу */
     background-color: #435563;
-    /* Запобігаємо тому, щоб Safari відтягував сторінку за нижній край картинки */
-    overscroll-behavior-y: none;
 }
 
 body {
     margin: 0;
     padding: 0;
-    /* Відступаємо тільки зверху (від камери/чолки) */
-    min-height: calc(100vh - env(safe-area-inset-top));
-    margin-top: env(safe-area-inset-top);
-    margin-bottom: 0;
+    min-height: 100vh;
+    background-color: transparent;
+    overflow-x: hidden;
+}
 
-    /* Закруглюємо кути тільки зверху нашої "картки" */
-    border-radius: 32px 32px 0 0;
-    overflow: hidden;
+/* Статичний фон на весь екран, який не буде розтягуватися чи закінчуватися при скролі */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
 
-    /* Основний фон (картки) */
     background-color: #435563;
-    /* Фолбек колір під картинку */
     background-image: url('bg.webp');
-    background-position: center bottom;
-    /* Вирівнюємо по низу, щоб гарантувати, що низ заповнений */
+    background-position: center top;
     background-size: cover;
     background-repeat: no-repeat;
-    background-attachment: scroll;
 
-    /* Заборона відскоку тільки для тіла сторінки */
-    overscroll-behavior-y: none;
+    z-index: -1;
+    pointer-events: none;
 }
 
 body {
@@ -93,17 +92,17 @@ body[data-lang="en"] .lang-uk {
 .container {
     width: 100%;
     max-width: 480px;
-    /* Висота контейнера тепер враховує тільки верхній відступ */
-    min-height: calc(100vh - env(safe-area-inset-top));
-    /* Внутрішні відступи для контенту (знизу 40px без прив'язки до safe-area) */
-    padding: 40px 20px 40px 20px;
+    min-height: 100vh;
+    /* Значно збільшуємо верхній відступ, як на твоєму скріншоті, 
+       щоб контент починався нижче і сторінку можна було скролити */
+    padding: calc(max(100px, env(safe-area-inset-top)) + 80px) 20px 80px 20px;
     margin: 0 auto;
     position: relative;
     z-index: 2;
     display: flex;
     flex-direction: column;
-    /* Центруємо весь контент вертикально посередині екрану, як просив користувач */
-    justify-content: center;
+    /* Контент починається зверху, що робить сторінку довгою і скроленою */
+    justify-content: flex-start;
     gap: 16px;
 }
 
