@@ -19,7 +19,6 @@
 /* Ультимативний фікс для iOS Safari */
 html {
     background: #000;
-    /* Самий нижній бейслайн - чорний */
 }
 
 html,
@@ -30,16 +29,23 @@ body {
     min-height: 100vh;
     min-height: 100svh;
     overflow-x: hidden;
-    background-color: #000;
+    background-color: transparent;
 }
 
-body {
-    background-image: url('bg.jpg');
-    background-position: center top;
-    background-size: cover;
-    background-repeat: no-repeat;
-    /* Відпускаємо фон разом зі сторінкою — найнадійніший "ядерний" фікс для iOS Safari */
-    background-attachment: scroll;
+#fixed-bg-img {
+    position: fixed;
+    /* Робимо зображення значно більшим за екран і центруємо його */
+    top: -15lvh;
+    left: -15lvw;
+    width: 130lvw;
+    height: 130lvh;
+    /* object-fit: cover працює набагато стабільніше в iOS Safari, ніж background-size */
+    object-fit: cover;
+    object-position: center top;
+    z-index: -10;
+    pointer-events: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 body {
