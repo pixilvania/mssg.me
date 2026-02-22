@@ -32,8 +32,7 @@
 /* Ультимативний фікс (Стиль Картки) для iOS Safari */
 html {
     /* Це колір "рамочки", який буде видно під чолкою і знизу */
-    /* Глибокий нічний синій, щоб зливатись з небом на картинці */
-    background-color: #0e1218;
+    background-color: #435563;
 }
 
 body {
@@ -48,8 +47,8 @@ body {
     border-radius: 32px 32px 0 0;
     overflow: hidden;
 
-    /* Основний фон */
-    background-color: #000;
+    /* Основний фон (картки) */
+    background-color: transparent;
     background-image: url('bg.jpg');
     background-position: center center;
     background-size: cover;
