@@ -21,12 +21,24 @@ body {
     margin: 0;
     padding: 0;
     width: 100%;
-    min-height: 120vh;
-    /* Повертаємо запас під низ Safari */
+    /* Даємо вікну тягнутись і скролитись як треба */
+    min-height: 100vh;
 }
 
-html {
-    background: #000 url('bg.jpg') center top / cover no-repeat fixed;
+/* Ідеальний фон для iOS 
+   Цей блок "висить" закріплений намертво до фізичних меж */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    /* 120vh гарантує, що при згортанні панелі Safari 
+       знизу ніколи не вигляне чорна сторінка. */
+    height: 120vh;
+    background: #000 url('bg.jpg') center top / cover no-repeat;
+    z-index: -10;
+    pointer-events: none;
 }
 
 body {
