@@ -45,18 +45,31 @@ body {
 
 /* Обгортка всього контенту з фоном, який має закруглені кути вгорі */
 .scroll-wrapper {
+    display: grid;
     min-height: calc(100vh - env(safe-area-inset-top));
     background-color: #000;
-    background-image: url('bg.webp');
-    background-position: center top;
-    /* Картинка гарантовано не буде більшою за саму себе */
-    background-size: cover;
-    background-repeat: no-repeat;
     /* Відступ зверху від чолки (або 0, якщо її нема) */
     margin-top: env(safe-area-inset-top);
     /* Закруглені кути як в айфона, тільки зверху */
     border-radius: 32px 32px 0 0;
     overflow: hidden;
+}
+
+/* Накладаємо всі елементи один на одного в одну комірку гріда */
+.scroll-wrapper>* {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.bg-image {
+    width: 100%;
+    height: auto;
+    min-height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    z-index: 0;
+    pointer-events: none;
 }
 
 body {
