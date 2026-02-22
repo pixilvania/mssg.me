@@ -1,11 +1,3 @@
-// Хак для iOS Safari: прокрутка на 1px змушує Safari згорнути свої панелі в компактний режим
-// Це дозволяє фону одразу просвічувати крізь напівпрозорі бари
-window.addEventListener('load', () => {
-    setTimeout(() => {
-        window.scrollTo(0, 1);
-    }, 100);
-});
-
 // 1. Анімація частинок (Попіл у повітрі)
 const canvas = document.getElementById('ash-canvas');
 const ctx = canvas.getContext('2d');

@@ -2,13 +2,9 @@
     --text-main: #ffffff;
     --text-muted: #aaaaaa;
     --accent-blue: #2AABEE;
-    /* Telegram Blue */
     --accent-glow: #d38c44;
-    /* Залишаємо для контексту TWD, але інтегруємо м'якше */
 
-    /* Telegram macOS Dark Glass */
     --glass-bg: rgba(28, 28, 30, 0.92);
-    /* Майже суцільний колір, щоб фон картини не робив верхні кнопки світлішими за нижні */
     --glass-bg-hover: rgba(44, 44, 46, 0.98);
     --glass-border: rgba(255, 255, 255, 0.08);
     --glass-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
@@ -20,12 +16,12 @@
     box-sizing: border-box;
 }
 
+/* ===== ФОН: БРОНЕБІЙНЕ РІШЕННЯ ДЛЯ iOS ===== */
+/* html і body мають чорний фон — якщо overscroll десь пролізе, буде чорне а не сіре */
 html {
     margin: 0;
     padding: 0;
-    /* Замість чорного кольору ставимо картинку як базовий фон */
-    /* При overscroll користувач побачить шматок картинки, а не чорне */
-    background: #1c1c1e url('bg.webp') center center / cover no-repeat fixed;
+    background: #000;
     overscroll-behavior: none;
     -webkit-overscroll-behavior: none;
 }
@@ -34,9 +30,8 @@ body {
     margin: 0;
     padding: 0;
     width: 100%;
-    /* dvh (dynamic viewport height) — враховує панелі Safari */
     min-height: 100dvh;
-    background: transparent;
+    background: #000;
     color: var(--text-main);
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
     -webkit-tap-highlight-color: transparent;
@@ -44,30 +39,41 @@ body {
     user-select: none;
     display: flex;
     justify-content: center;
-    /* ВАЖЛИВО: overflow-y НЕ задаємо — нативний скрол сторінки, position: fixed працює */
     overflow-x: hidden;
     overscroll-behavior-y: none;
     -webkit-overscroll-behavior-y: none;
 }
 
-/* Фон на весь екран: робимо полотно на 20% більшим за екран і центруємо */
-/* Гарантовано покриває всі зміни розміру при появі/зникненні адресної стрічки Safari */
-body::before {
-    content: '';
+/* Фоновий div — position:fixed, розтягнутий за межі екрану на 100px з кожного боку.
+   Це гарантує що навіть при overscroll в Safari не буде видно країв.
+   НЕ використовуємо background-attachment:fixed (зламано на iOS).
+   НЕ використовуємо pseudo-елемент (менш надійно). */
+#bg {
     position: fixed;
-    top: -10%;
-    left: -10%;
-    width: 120%;
-    height: 120vh;
-    /* vh, щоб фон не стрибав при зміні висоти dvh */
+    top: -100px;
+    left: -100px;
+    right: -100px;
+    bottom: -100px;
     z-index: -2;
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-        url('bg.webp') center center / cover no-repeat;
+    background: url('bg.webp') center center / cover no-repeat;
     pointer-events: none;
+    /* GPU прискорення щоб не було миготіння */
     transform: translateZ(0);
     will-change: transform;
 }
 
+/* Затемнення поверх фону */
+#bg-overlay {
+    position: fixed;
+    top: -100px;
+    left: -100px;
+    right: -100px;
+    bottom: -100px;
+    z-index: -1;
+    background: rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+    transform: translateZ(0);
+}
 
 /* Логіка перемикання мов */
 body[data-lang="uk"] .lang-en {
@@ -80,31 +86,23 @@ body[data-lang="en"] .lang-uk {
 
 #ash-canvas {
     position: fixed;
-    /* Розтягуємо canvas на всю зону, включаючи safe area */
     top: calc(-1 * env(safe-area-inset-top, 0px));
     left: calc(-1 * env(safe-area-inset-left, 0px));
     right: calc(-1 * env(safe-area-inset-right, 0px));
     bottom: calc(-1 * env(safe-area-inset-bottom, 0px));
     width: auto;
     height: auto;
-    z-index: -1;
-    /* Над body::before (-2), але під контентом (z-index: 2) */
+    z-index: 0;
     pointer-events: none;
 }
 
 .container {
     width: 100%;
     max-width: 480px;
-    /* dvh враховує панелі мобільних браузерів */
     min-height: 100dvh;
-
-    /* Збільшуємо padding щоб контент не залазив під бари, але сам контейнер був під ними */
     padding: calc(max(20px, env(safe-area-inset-top)) + 40px) 20px calc(max(20px, env(safe-area-inset-bottom)) + 40px);
-
-    /* Додаємо від'ємний margin, щоб "розтягнути" контейнер під системні панелі */
     margin-top: -40px;
     margin-bottom: -40px;
-
     position: relative;
     z-index: 2;
     display: flex;
@@ -113,7 +111,6 @@ body[data-lang="en"] .lang-uk {
     gap: 16px;
 }
 
-/* Безпечне центрування в iOS: якщо контент більший за екран - його можна скролити, якщо менший - він по центру */
 .container::before,
 .container::after {
     content: '';
@@ -173,7 +170,6 @@ a {
     border: 0.5px solid var(--glass-border);
     box-shadow: var(--glass-shadow);
     border-radius: 18px;
-    /* Менший радіус закруглення, характерний для ТГ */
     transition: transform 0.2s ease, background 0.2s ease;
 }
 
@@ -184,7 +180,6 @@ a {
     flex-direction: column;
     gap: 16px;
     animation: glitch 5s infinite;
-    /* Знизив до 5 секунд, щоб легко побачити */
 }
 
 @keyframes glitch {
@@ -226,7 +221,6 @@ a {
     width: 72px;
     height: 72px;
     border-radius: 50%;
-    /* Кругла аватарка ТГ */
     object-fit: cover;
 }
 
@@ -245,7 +239,6 @@ a {
 .nickname {
     font-size: 13px;
     color: var(--accent-blue);
-    /* Нікнейм синього кольору як в ТГ */
     margin-bottom: 6px;
 }
 
@@ -268,7 +261,6 @@ a {
 
 .btn-small {
     width: 100%;
-    /* На всю ширину як в ТГ */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -305,7 +297,6 @@ a {
     justify-content: space-between;
     transition: background 0.2s;
 }
-
 
 .btn-main-content {
     display: flex;
@@ -353,7 +344,6 @@ a {
     border-radius: 18px;
     border: 0.5px solid var(--glass-border);
     overflow: hidden;
-    /* Щоб ховери не вилазили за рамки */
 }
 
 .link-card {
@@ -362,7 +352,6 @@ a {
     padding: 14px 16px;
     gap: 14px;
     border-bottom: 0.5px solid rgba(255, 255, 255, 0.05);
-    /* Розділювач ТГ */
     transition: background 0.2s;
 }
 
@@ -378,7 +367,6 @@ a {
     width: 32px;
     height: 32px;
     border-radius: 8px;
-    /* Округлі іконки ТГ */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -391,17 +379,13 @@ a {
     background: #34C759;
 }
 
-/* Зелений як для груп / повідомлень */
 .project-1 {
     background: #007AFF;
 }
 
-/* Синій */
 .project-2 {
     background: #AF52DE;
 }
-
-/* Фіолетовий */
 
 .card-content {
     flex: 1;
@@ -465,7 +449,7 @@ a {
     animation-delay: 0.4s;
 }
 
-/* Анімація натискання (Ripple-like effect для карток і кнопок) */
+/* Анімація натискання */
 .link-card:active,
 .btn-small:active,
 .main-action-wrapper:active,
