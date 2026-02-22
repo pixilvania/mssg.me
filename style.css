@@ -39,13 +39,13 @@ html {
 body {
     margin: 0;
     padding: 0;
-    /* Відступаємо від країв екрану (безпечних зон), щоб створити ефект картки */
-    min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    /* Відступаємо тільки зверху (від камери/чолки) */
+    min-height: calc(100vh - env(safe-area-inset-top));
     margin-top: env(safe-area-inset-top);
-    margin-bottom: env(safe-area-inset-bottom);
+    margin-bottom: 0;
 
-    /* Закруглюємо кути нашого "додатку" */
-    border-radius: 32px;
+    /* Закруглюємо кути тільки зверху нашої "картки" */
+    border-radius: 32px 32px 0 0;
     overflow: hidden;
 
     /* Основний фон */
@@ -87,10 +87,10 @@ body[data-lang="en"] .lang-uk {
 .container {
     width: 100%;
     max-width: 480px;
-    /* Висота контейнера тепер відповідає висоті нашої картки */
-    min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
-    /* Внутрішні відступи для контенту */
-    padding: 40px 20px;
+    /* Висота контейнера тепер враховує тільки верхній відступ */
+    min-height: calc(100vh - env(safe-area-inset-top));
+    /* Внутрішні відступи для контенту (залишаємо запас знизу для хоум-індикатора всередині картки) */
+    padding: 40px 20px calc(env(safe-area-inset-bottom) + 40px) 20px;
     margin: 0 auto;
     position: relative;
     z-index: 2;
