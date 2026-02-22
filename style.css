@@ -53,15 +53,14 @@ body {
 }
 
 /* Хакаємо iOS Safari: кладемо фон під body так, щоб панелі браузера могли його блюрити */
+/* Розтягуємо на 150px за межі viewport, щоб overscroll не показував край */
 body::before {
     content: '';
     position: fixed;
-    top: 0;
+    top: -150px;
     left: 0;
-    width: 100vw;
-    height: 100vh;
-    height: 100lvh;
-    /* Магія тут: lvh гарантує максимальну висоту екрана, залізаючи ПІД панелі */
+    right: 0;
+    bottom: -150px;
     z-index: -2;
     /* Нижче за canvas */
     background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
@@ -71,6 +70,21 @@ body::before {
     transform: translateZ(0);
     /* Апаратне прискорення */
     will-change: transform;
+}
+
+/* Градієнтна маска: розмиває краї фону зверху і знизу, щоб при overscroll не було видно різкого обрізу */
+body::after {
+    content: '';
+    position: fixed;
+    top: -150px;
+    left: 0;
+    right: 0;
+    bottom: -150px;
+    z-index: -1;
+    background:
+        linear-gradient(to bottom, #000 0%, transparent 18%, transparent 82%, #000 100%);
+    pointer-events: none;
+    transform: translateZ(0);
 }
 
 
@@ -89,8 +103,8 @@ body[data-lang="en"] .lang-uk {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1;
-    /* Змінено з 1 на -1, щоб було під контентом, але над body::before (-2) */
+    z-index: 0;
+    /* Над body::before (-2) та body::after (-1), але під контентом (z-index: 2) */
     pointer-events: none;
 }
 
