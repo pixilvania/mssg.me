@@ -23,11 +23,10 @@
 html {
     margin: 0;
     padding: 0;
-    /* html ОБОВ'ЯЗКОВО transparent — тоді Safari бере фон body для блюру своїх панелей */
-    background: transparent;
-    /* Змушуємо Safari думати, що під панелями є що блюрити відпочатку */
-    backdrop-filter: blur(0px);
-    -webkit-backdrop-filter: blur(0px);
+    /* Safari використовує background html для зони за safe area (нотч, home indicator, адресний бар) */
+    background-color: #000;
+    /* Забороняємо overscroll на html, щоб не показувати html-фон (#000) при потягуванні */
+    overflow: hidden;
 }
 
 body {
@@ -45,46 +44,27 @@ body {
     user-select: none;
     display: flex;
     justify-content: center;
-    /* Pull-to-refresh працює, але вільний скрол заблоковано */
-    overflow-y: scroll;
-    /* Аналогічно з html - форсуємо рендерінг підкладки */
-    backdrop-filter: blur(0px);
-    -webkit-backdrop-filter: blur(0px);
+    /* Дозволяємо скрол контенту, але не форсуємо його */
+    overflow-y: auto;
 }
 
-/* Хакаємо iOS Safari: кладемо фон під body так, щоб панелі браузера могли його блюрити */
-/* Розтягуємо на 150px за межі viewport, щоб overscroll не показував край */
+/* Фон на весь екран: розтягуємо далеко за межі viewport + safe area, */
+/* щоб зображення пролазило під нотч, home indicator та адресний бар Safari */
 body::before {
     content: '';
     position: fixed;
-    top: -150px;
-    left: 0;
-    right: 0;
-    bottom: -150px;
+    /* Розтягуємо за межі viewport з запасом + safe area inset */
+    top: calc(-200px - env(safe-area-inset-top, 0px));
+    left: calc(-20px - env(safe-area-inset-left, 0px));
+    right: calc(-20px - env(safe-area-inset-right, 0px));
+    bottom: calc(-200px - env(safe-area-inset-bottom, 0px));
     z-index: -2;
-    /* Нижче за canvas */
     background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
         url('Gemini_Generated_Image_2dgb6p2dgb6p2dgb.png') center center / cover no-repeat;
     background-color: #000;
     pointer-events: none;
     transform: translateZ(0);
-    /* Апаратне прискорення */
     will-change: transform;
-}
-
-/* Градієнтна маска: розмиває краї фону зверху і знизу, щоб при overscroll не було видно різкого обрізу */
-body::after {
-    content: '';
-    position: fixed;
-    top: -150px;
-    left: 0;
-    right: 0;
-    bottom: -150px;
-    z-index: -1;
-    background:
-        linear-gradient(to bottom, #000 0%, transparent 18%, transparent 82%, #000 100%);
-    pointer-events: none;
-    transform: translateZ(0);
 }
 
 
@@ -99,12 +79,15 @@ body[data-lang="en"] .lang-uk {
 
 #ash-canvas {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    /* Над body::before (-2) та body::after (-1), але під контентом (z-index: 2) */
+    /* Розтягуємо canvas на всю зону, включаючи safe area */
+    top: calc(-1 * env(safe-area-inset-top, 0px));
+    left: calc(-1 * env(safe-area-inset-left, 0px));
+    right: calc(-1 * env(safe-area-inset-right, 0px));
+    bottom: calc(-1 * env(safe-area-inset-bottom, 0px));
+    width: auto;
+    height: auto;
+    z-index: -1;
+    /* Над body::before (-2), але під контентом (z-index: 2) */
     pointer-events: none;
 }
 

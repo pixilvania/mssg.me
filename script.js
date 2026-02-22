@@ -34,8 +34,9 @@ window.addEventListener('touchend', () => {
 });
 
 function resizeCanvas() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
+    // Використовуємо clientWidth/Height, бо CSS розтягує canvas за safe area
+    width = canvas.width = canvas.clientWidth || window.innerWidth;
+    height = canvas.height = canvas.clientHeight || window.innerHeight;
     mouse.radius = window.innerWidth < 768 ? 60 : 100;
 }
 
