@@ -19,24 +19,23 @@
 /* Ультимативний фікс для iOS Safari */
 html {
     background-color: #000;
-    /* Форсуємо HTML покривати весь екран, включно з safe areas */
-    height: 100vh;
-    height: -webkit-fill-available;
 }
 
 body {
     margin: 0;
     padding: 0;
-    /* Ключовий момент: мін-висота має враховувати safe areas */
     min-height: 100vh;
-    min-height: -webkit-fill-available;
-
+    /* У відповідності до офіційних стандартів Apple WebKit:
+       Фон має задаватися для body, а Safari сам розширить його на safe areas 
+       через meta viewport-fit=cover */
+    background-color: #000;
     background-image: url('bg.jpg');
     background-position: center top;
     background-size: cover;
     background-repeat: no-repeat;
-    /* Скрол, щоб уникнути багів рендерингу фіксованих шарів */
-    background-attachment: scroll;
+    /* Звичайний scroll зазвичай найбезпечніший, але спробуємо fixed за офіційним стандартом,
+       оскільки ми прибрали хакерські висоти */
+    background-attachment: fixed;
 }
 
 body {
