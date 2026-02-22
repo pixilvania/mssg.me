@@ -31,7 +31,7 @@
 
 /* Ультимативний фікс для iOS Safari */
 html {
-    /* Резинка знизу буде чорна, решта — це картинка, а зверху — плашка */
+    /* Робимо низ чорним, щоб не було ніякої "синьої бороди" знизу при відтягуванні */
     background-color: #000;
 }
 
@@ -39,27 +39,33 @@ body {
     margin: 0;
     padding: 0;
     min-height: 100vh;
-    background-color: transparent;
+    background-color: #000;
     overflow-x: hidden;
+    position: relative;
 }
 
-/* Статичний фон на весь екран, який ідеально стоїть на місці */
+/* Фарбуємо "гумовий" відскок тільки зверху (над плашкою) у потрібний колір */
 body::before {
     content: '';
-    position: fixed;
-    top: 0;
+    position: absolute;
+    top: -100vh;
     left: 0;
     width: 100vw;
     height: 100vh;
+    background-color: #435563;
+    /* Темно-синій для верхньої чолки/резинки */
+    z-index: -1;
+}
 
+/* Обгортка всього контенту, яка тримає фон, що скролиться */
+.scroll-wrapper {
+    min-height: 100vh;
     background-color: #000;
     background-image: url('bg.webp');
     background-position: center top;
-    background-size: cover;
+    /* Картинка розтягується на всю ширину і скролиться доки не закінчиться */
+    background-size: 100% auto;
     background-repeat: no-repeat;
-
-    z-index: -1;
-    pointer-events: none;
 }
 
 /* Верхня плашка (Top Bar) */
@@ -67,12 +73,16 @@ body::before {
     width: 100%;
     /* Колір, який ти скинув (сталевий синій) */
     background-color: #435563;
-    padding: calc(16px + env(safe-area-inset-top)) 20px 16px 20px;
+    /* Відступ зверху під чолку + внутрішній відступ */
+    padding-top: max(env(safe-area-inset-top), 20px);
+    padding-bottom: 16px;
+    padding-left: 20px;
+    padding-right: 20px;
     text-align: center;
     position: relative;
-    z-index: 10;
+    z-index: 100;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
 }
 
 .top-bar h1 {
