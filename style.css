@@ -14,6 +14,11 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    /* Заборона виділення тексту для всіх елементів */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 /* Дозволяємо виділення тексту лише там, де це дійсно необхідно (якщо такі будуть) */
@@ -24,45 +29,40 @@
     user-select: text;
 }
 
-/* Ультимативний фікс для iOS Safari */
+/* Ультимативний фікс (Стиль Картки) для iOS Safari */
 html {
-    background-color: #000;
+    /* Це колір "рамочки", який буде видно під чолкою і знизу */
+    /* Глибокий нічний синій, щоб зливатись з небом на картинці */
+    background-color: #0e1218;
 }
 
 body {
     margin: 0;
     padding: 0;
-    min-height: 100vh;
-    background-color: transparent;
-    /* Робимо body прозорим, щоб бачити ::before */
-    overflow-x: hidden;
-}
+    /* Відступаємо від країв екрану (безпечних зон), щоб створити ефект картки */
+    min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    margin-top: env(safe-area-inset-top);
+    margin-bottom: env(safe-area-inset-bottom);
 
-/* Створюємо шар фону, який виходить за межі екрану (кровотеча/overhang) */
-body::before {
-    content: '';
-    position: fixed;
-    /* Витягуємо фон на 15% вище за верхній край екрану */
-    top: -15vh;
-    left: 0;
-    width: 100vw;
-    /* Робимо фон вищим за екран, щоб компенсувати зсув */
-    height: 130vh;
+    /* Закруглюємо кути нашого "додатку" */
+    border-radius: 32px;
+    overflow: hidden;
 
+    /* Основний фон */
+    background-color: #000;
     background-image: url('bg.jpg');
-    background-position: center top;
+    background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
-
-    z-index: -1;
-    /* Ховаємо під контент */
-    pointer-events: none;
+    background-attachment: scroll;
 }
 
 body {
     color: var(--text-main);
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
     -webkit-tap-highlight-color: transparent;
+    -webkit-user-drag: none;
+    /* Заборона перетягування */
 }
 
 /* Логіка перемикання мов */
@@ -87,15 +87,16 @@ body[data-lang="en"] .lang-uk {
 .container {
     width: 100%;
     max-width: 480px;
-    min-height: 100dvh;
-    /* Акуратний відступ з урахуванням безпечних зон */
-    padding: calc(env(safe-area-inset-top) + 40px) 20px calc(env(safe-area-inset-bottom) + 40px);
+    /* Висота контейнера тепер відповідає висоті нашої картки */
+    min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    /* Внутрішні відступи для контенту */
+    padding: 40px 20px;
     margin: 0 auto;
     position: relative;
     z-index: 2;
     display: flex;
     flex-direction: column;
-    /* Центруємо весь контент вертикально посередині екрану */
+    /* Центруємо весь контент вертикально посередині екрану, як просив користувач */
     justify-content: center;
     gap: 16px;
 }
