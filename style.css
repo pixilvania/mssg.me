@@ -45,8 +45,8 @@ body {
 
 /* Обгортка всього контенту з фоном, який має закруглені кути вгорі */
 .scroll-wrapper {
-    /* Робимо припуск 15vh (блок на 15% вищий за екран), щоб краї картинки були за межами екрана */
-    min-height: calc(115vh - env(safe-area-inset-top));
+    /* Робимо припуск 30vh (блок на 30% вищий за екран), щоб краї картинки були далеко за межами екрана */
+    min-height: calc(130vh - env(safe-area-inset-top));
     background-color: #000;
     background-image: url('bg.webp');
     background-position: center top;
@@ -65,6 +65,8 @@ body {
     -webkit-tap-highlight-color: transparent;
     -webkit-user-drag: none;
     /* Заборона перетягування */
+    /* Жорстка заборона зуму (pinch-to-zoom) в iOS Safari */
+    touch-action: pan-y;
 }
 
 /* Логіка перемикання мов */
@@ -89,9 +91,9 @@ body[data-lang="en"] .lang-uk {
 .container {
     width: 100%;
     max-width: 480px;
-    /* Контент починається зі значним відступом, аналогічно до скріншота */
+    /* Контент піднято ще вище */
     min-height: calc(100vh - env(safe-area-inset-top));
-    padding: 80px 20px 80px 20px;
+    padding: 24px 20px 80px 20px;
     margin: 0 auto;
     position: relative;
     z-index: 2;
@@ -318,6 +320,11 @@ a {
     font-size: 16px;
 }
 
+/* Заборонимо іконкам зменшуватись */
+.link-icon {
+    flex-shrink: 0;
+}
+
 /* Список посилань */
 .links-section {
     display: flex;
@@ -400,20 +407,43 @@ a {
 /* --- Entrance Animations (Telegram Cascade Style) --- */
 .animate-on-load {
     opacity: 0;
-    transform: translateY(20px);
-    animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    transform: translateY(40px) scale(0.98);
+    animation: fadeUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
 @keyframes fadeUp {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(40px) scale(0.98);
     }
 
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
     }
+}
+
+/* Continuous Floating Animation */
+@keyframes floatBreath {
+    0% {
+        transform: translateY(0px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    50% {
+        transform: translateY(-4px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+    }
+
+    100% {
+        transform: translateY(0px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+}
+
+.breathing {
+    /* Apply after entrance animation finishes */
+    animation: floatBreath 6s ease-in-out infinite alternate;
 }
 
 /* Затримки для каскадного ефекту */
