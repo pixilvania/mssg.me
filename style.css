@@ -31,25 +31,19 @@ body {
     height: 100%;
 }
 
-/* Ідеальний фон для iOS, який нізащо не пустить рамки */
-body::before {
-    content: '';
+/* Ідеальний фон для iOS Safari: використовуємо виділений DOM елемент
+   замість псевдоелементів чи background-attachment, бо Safari 
+   їх дуже погано рендерить при скролі. */
+#fixed-bg {
     position: fixed;
-    /* Змушуємо картинку влізти під "чолку" (notch) та нижню смужку */
-    top: calc(-1 * env(safe-area-inset-top, 50px));
-    left: calc(-1 * env(safe-area-inset-left, 0px));
-    right: calc(-1 * env(safe-area-inset-right, 0px));
-    bottom: calc(-1 * env(safe-area-inset-bottom, 50px));
-
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     width: 100vw;
-    /* Визначаємо висоту так, щоб перекривала весь екран + всі системні зони */
-    height: 120vh;
-    background: url('bg.jpg') center center / cover no-repeat;
-
-    /* SCALE 1.15 - це той самий МАГІЧНИЙ ПРИЙОМ: ми фізично збільшуємо шар 
-       картинки на 15%, щоб вона вилізла за межі екрана у всіх 4 сторонах.
-       Тепер Safari ні за що не зможе показати чорну рамку. */
-    transform: scale(1.15);
+    height: 100%;
+    /* Додаємо картинку сюди. Вона буде статичною відносно вікна. */
+    background: #000 url('bg.jpg') center top / cover no-repeat;
     z-index: -10;
     pointer-events: none;
 }
