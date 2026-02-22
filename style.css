@@ -20,38 +20,21 @@ html,
 body {
     margin: 0;
     padding: 0;
-    height: 100%;
     width: 100%;
-    overflow: hidden;
-    /* Забороняємо вікну скролитись */
-    position: fixed;
-    /* Фіксуємо його на екрані */
-    background: #000;
+    /* Даємо запас знизу, щоб "чолка" і нижній бар гарантовано перекривалися */
+    min-height: 120vh;
+}
+
+html {
+    background: #000 url('bg.webp') center top / cover no-repeat fixed;
 }
 
 body {
-    background: url('bg.webp') center / cover no-repeat;
     color: var(--text-main);
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
     -webkit-tap-highlight-color: transparent;
     -webkit-user-select: none;
     user-select: none;
-}
-
-/* Обгортка, в якій тепер відбуватиметься ВЕСЬ скрол */
-.scroll-wrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow-y: auto;
-    /* Дозволяємо скрол тільки тут */
-    -webkit-overflow-scrolling: touch;
-    /* Плавний скрол на iOS */
-    display: flex;
-    justify-content: center;
-    overflow-x: hidden;
 }
 
 /* Логіка перемикання мов */
