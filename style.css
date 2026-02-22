@@ -16,22 +16,25 @@
     box-sizing: border-box;
 }
 
-/* ===== ФОН: БРОНЕБІЙНЕ РІШЕННЯ ДЛЯ iOS ===== */
-/* html і body мають чорний фон — якщо overscroll десь пролізе, буде чорне а не сіре */
 html {
     margin: 0;
     padding: 0;
     background: #000;
-    overscroll-behavior: none;
-    -webkit-overscroll-behavior: none;
 }
 
 body {
     margin: 0;
     padding: 0;
     width: 100%;
-    min-height: 100dvh;
-    background: transparent;
+    min-height: 100vh;
+
+    /* ФОН — простий підхід */
+    background-image: url('bg.webp');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
     color: var(--text-main);
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
     -webkit-tap-highlight-color: transparent;
@@ -40,41 +43,6 @@ body {
     display: flex;
     justify-content: center;
     overflow-x: hidden;
-    overscroll-behavior-y: none;
-    -webkit-overscroll-behavior-y: none;
-    /* Створюємо стекінг контекст — без цього z-index дітей провалюється за html */
-    isolation: isolate;
-}
-
-/* Фоновий div — position:fixed, розтягнутий за межі екрану на 100px з кожного боку.
-   Це гарантує що навіть при overscroll в Safari не буде видно країв.
-   НЕ використовуємо background-attachment:fixed (зламано на iOS).
-   НЕ використовуємо pseudo-елемент (менш надійно). */
-#bg {
-    position: fixed;
-    top: -100px;
-    left: -100px;
-    right: -100px;
-    bottom: -100px;
-    z-index: 1;
-    background: url('bg.webp') center center / cover no-repeat;
-    pointer-events: none;
-    /* GPU прискорення щоб не було миготіння */
-    transform: translateZ(0);
-    will-change: transform;
-}
-
-/* Затемнення поверх фону */
-#bg-overlay {
-    position: fixed;
-    top: -100px;
-    left: -100px;
-    right: -100px;
-    bottom: -100px;
-    z-index: 2;
-    background: rgba(0, 0, 0, 0.4);
-    pointer-events: none;
-    transform: translateZ(0);
 }
 
 /* Логіка перемикання мов */
@@ -88,13 +56,11 @@ body[data-lang="en"] .lang-uk {
 
 #ash-canvas {
     position: fixed;
-    top: calc(-1 * env(safe-area-inset-top, 0px));
-    left: calc(-1 * env(safe-area-inset-left, 0px));
-    right: calc(-1 * env(safe-area-inset-right, 0px));
-    bottom: calc(-1 * env(safe-area-inset-bottom, 0px));
-    width: auto;
-    height: auto;
-    z-index: 3;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
     pointer-events: none;
 }
 
@@ -106,7 +72,7 @@ body[data-lang="en"] .lang-uk {
     margin-top: -40px;
     margin-bottom: -40px;
     position: relative;
-    z-index: 4;
+    z-index: 2;
     display: flex;
     flex-direction: column;
     justify-content: center;
