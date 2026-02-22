@@ -18,34 +18,25 @@
 
 /* Ультимативний фікс для iOS Safari */
 html {
-    background: #000;
+    background-color: #000;
+    /* Форсуємо HTML покривати весь екран, включно з safe areas */
+    height: 100vh;
+    height: -webkit-fill-available;
 }
 
-html,
 body {
     margin: 0;
     padding: 0;
-    width: 100%;
+    /* Ключовий момент: мін-висота має враховувати safe areas */
     min-height: 100vh;
-    min-height: 100svh;
-    overflow-x: hidden;
-    background-color: transparent;
-}
+    min-height: -webkit-fill-available;
 
-#fixed-bg-img {
-    position: fixed;
-    /* Робимо зображення значно більшим за екран і центруємо його */
-    top: -15lvh;
-    left: -15lvw;
-    width: 130lvw;
-    height: 130lvh;
-    /* object-fit: cover працює набагато стабільніше в iOS Safari, ніж background-size */
-    object-fit: cover;
-    object-position: center top;
-    z-index: -10;
-    pointer-events: none;
-    -webkit-user-select: none;
-    user-select: none;
+    background-image: url('bg.jpg');
+    background-position: center top;
+    background-size: cover;
+    background-repeat: no-repeat;
+    /* Скрол, щоб уникнути багів рендерингу фіксованих шарів */
+    background-attachment: scroll;
 }
 
 body {
