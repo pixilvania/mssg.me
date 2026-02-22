@@ -14,423 +14,427 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
 
-/* Ультимативний фікс для iOS Safari */
-html,
-body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    /* Дозволяємо нормальний скрол */
-    height: 100%;
-    /* Прибираємо чорний фон, бо він перекриває картинку з z-index: -10 */
-    background-color: transparent;
-}
+    /* Ультимативний фікс для iOS Safari */
+    html {
+        background: #000;
+        /* Самий нижній бейслайн - чорний */
+    }
 
-/* Ідеальний фон для iOS, який нізащо не пустить рамки */
-body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100vw;
-    height: 100%;
-    /* Прив'язуємо до реальної висоти */
-    background: #000 url('bg.jpg') center top / cover no-repeat;
-    /* SCALE 1.1 - це той самий МАГІЧНИЙ ПРИЙОМ: ми фізично збільшуємо шар 
-       картинки на 10%, щоб вона вилізла за межі екрана у всіх 4 сторонах.
-       Тепер Safari ні за що не зможе показати чорну рамку, навіть якщо 
-       стискатиме чи розширюватиме екран. */
-    transform: scale(1.15);
-    z-index: -10;
-    pointer-events: none;
-}
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        /* Дозволяємо нормальний скрол */
+        height: 100%;
+    }
 
-body {
-    color: var(--text-main);
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
-    -webkit-tap-highlight-color: transparent;
-    -webkit-user-select: none;
-    user-select: none;
-}
+    /* Ідеальний фон для iOS, який нізащо не пустить рамки */
+    body::before {
+        content: '';
+        position: fixed;
+        /* Змушуємо картинку влізти під "чолку" (notch) та нижню смужку */
+        top: calc(-1 * env(safe-area-inset-top, 50px));
+        left: calc(-1 * env(safe-area-inset-left, 0px));
+        right: calc(-1 * env(safe-area-inset-right, 0px));
+        bottom: calc(-1 * env(safe-area-inset-bottom, 50px));
 
-/* Логіка перемикання мов */
-body[data-lang="uk"] .lang-en {
-    display: none !important;
-}
+        width: 100vw;
+        /* Визначаємо висоту так, щоб перекривала весь екран + всі системні зони */
+        height: 120vh;
+        background: url('bg.jpg') center center / cover no-repeat;
 
-body[data-lang="en"] .lang-uk {
-    display: none !important;
-}
+        /* SCALE 1.15 - це той самий МАГІЧНИЙ ПРИЙОМ: ми фізично збільшуємо шар 
+       картинки на 15%, щоб вона вилізла за межі екрана у всіх 4 сторонах.
+       Тепер Safari ні за що не зможе показати чорну рамку. */
+        transform: scale(1.15);
+        z-index: -10;
+        pointer-events: none;
+    }
 
-#ash-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    pointer-events: none;
-}
+    body {
+        color: var(--text-main);
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-user-select: none;
+        user-select: none;
+    }
 
-.container {
-    width: 100%;
-    max-width: 480px;
-    min-height: 100dvh;
-    /* Сильно збільшуємо відступ зверху, щоб контент "сповз" вниз 
+    /* Логіка перемикання мов */
+    body[data-lang="uk"] .lang-en {
+        display: none !important;
+    }
+
+    body[data-lang="en"] .lang-uk {
+        display: none !important;
+    }
+
+    #ash-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 480px;
+        min-height: 100dvh;
+        /* Сильно збільшуємо відступ зверху, щоб контент "сповз" вниз 
        і дав картинці красиво зайти за чолку */
-    padding: calc(max(100px, env(safe-area-inset-top)) + 80px) 20px calc(max(20px, env(safe-area-inset-bottom)) + 120px);
-    margin: 0 auto;
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    /* Вимикаємо жорстку центровку */
-    gap: 16px;
-}
+        padding: calc(max(100px, env(safe-area-inset-top)) + 80px) 20px calc(max(20px, env(safe-area-inset-bottom)) + 120px);
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        /* Вимикаємо жорстку центровку */
+        gap: 16px;
+    }
 
-a {
-    text-decoration: none;
-    color: inherit;
-}
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
 
-/* Header & Lang Switcher */
-.header {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin-bottom: 4px;
-}
+    /* Header & Lang Switcher */
+    .header {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-bottom: 4px;
+    }
 
-.lang-switcher {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 12px;
-    border-radius: 10px;
-    background: var(--glass-bg);
-    backdrop-filter: blur(40px) saturate(150%);
-    -webkit-backdrop-filter: blur(40px) saturate(150%);
-    border: 0.5px solid var(--glass-border);
-}
+    .lang-switcher {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 12px;
+        border-radius: 10px;
+        background: var(--glass-bg);
+        backdrop-filter: blur(40px) saturate(150%);
+        -webkit-backdrop-filter: blur(40px) saturate(150%);
+        border: 0.5px solid var(--glass-border);
+    }
 
-.lang-btn {
-    background: none;
-    border: none;
-    color: var(--text-muted);
-    font-family: inherit;
-    font-weight: 500;
-    font-size: 13px;
-    cursor: pointer;
-    transition: color 0.2s;
-    outline: none;
-}
+    .lang-btn {
+        background: none;
+        border: none;
+        color: var(--text-muted);
+        font-family: inherit;
+        font-weight: 500;
+        font-size: 13px;
+        cursor: pointer;
+        transition: color 0.2s;
+        outline: none;
+    }
 
-.lang-btn.active {
-    color: #fff;
-}
+    .lang-btn.active {
+        color: #fff;
+    }
 
-.lang-switcher .divider {
-    color: rgba(255, 255, 255, 0.1);
-}
+    .lang-switcher .divider {
+        color: rgba(255, 255, 255, 0.1);
+    }
 
-/* TELEGRAM GLASSMORPHISM CORE */
-.glass-panel {
-    background: var(--glass-bg);
-    backdrop-filter: blur(45px) saturate(160%);
-    -webkit-backdrop-filter: blur(45px) saturate(160%);
-    border: 0.5px solid var(--glass-border);
-    box-shadow: var(--glass-shadow);
-    border-radius: 18px;
-    transition: transform 0.2s ease, background 0.2s ease;
-}
-
-/* Головна картка */
-.profile-card {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    animation: glitch 5s infinite;
-}
-
-@keyframes glitch {
-
-    0%,
-    94%,
-    100% {
+    /* TELEGRAM GLASSMORPHISM CORE */
+    .glass-panel {
+        background: var(--glass-bg);
+        backdrop-filter: blur(45px) saturate(160%);
+        -webkit-backdrop-filter: blur(45px) saturate(160%);
+        border: 0.5px solid var(--glass-border);
         box-shadow: var(--glass-shadow);
-        filter: brightness(1) contrast(1);
+        border-radius: 18px;
+        transition: transform 0.2s ease, background 0.2s ease;
     }
 
-    95% {
-        box-shadow: -15px 0 20px rgba(42, 171, 238, 0.9), var(--glass-shadow);
-        filter: brightness(1.3) contrast(1.2);
+    /* Головна картка */
+    .profile-card {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        animation: glitch 5s infinite;
     }
 
-    97% {
-        box-shadow: 15px 0 20px rgba(255, 0, 0, 0.7), var(--glass-shadow);
-        filter: grayscale(0.2) hue-rotate(45deg);
+    @keyframes glitch {
+
+        0%,
+        94%,
+        100% {
+            box-shadow: var(--glass-shadow);
+            filter: brightness(1) contrast(1);
+        }
+
+        95% {
+            box-shadow: -15px 0 20px rgba(42, 171, 238, 0.9), var(--glass-shadow);
+            filter: brightness(1.3) contrast(1.2);
+        }
+
+        97% {
+            box-shadow: 15px 0 20px rgba(255, 0, 0, 0.7), var(--glass-shadow);
+            filter: grayscale(0.2) hue-rotate(45deg);
+        }
+
+        98% {
+            box-shadow: -5px 0 10px rgba(255, 255, 255, 0.8), var(--glass-shadow);
+            filter: invert(10%);
+        }
     }
 
-    98% {
-        box-shadow: -5px 0 10px rgba(255, 255, 255, 0.8), var(--glass-shadow);
-        filter: invert(10%);
+    .profile-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
     }
-}
 
-.profile-header {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
+    .avatar-container {
+        position: relative;
+    }
 
-.avatar-container {
-    position: relative;
-}
+    .avatar {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
 
-.avatar {
-    width: 72px;
-    height: 72px;
-    border-radius: 50%;
-    object-fit: cover;
-}
+    .profile-info {
+        display: flex;
+        flex-direction: column;
+    }
 
-.profile-info {
-    display: flex;
-    flex-direction: column;
-}
+    .name {
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: -0.3px;
+        margin-bottom: 2px;
+    }
 
-.name {
-    font-size: 20px;
-    font-weight: 600;
-    letter-spacing: -0.3px;
-    margin-bottom: 2px;
-}
+    .nickname {
+        font-size: 13px;
+        color: var(--accent-blue);
+        margin-bottom: 6px;
+    }
 
-.nickname {
-    font-size: 13px;
-    color: var(--accent-blue);
-    margin-bottom: 6px;
-}
+    .bio {
+        font-size: 14px;
+        color: var(--text-main);
+        line-height: 1.4;
+        font-weight: 400;
+    }
 
-.bio {
-    font-size: 14px;
-    color: var(--text-main);
-    line-height: 1.4;
-    font-weight: 400;
-}
+    .bio .highlight {
+        font-weight: 600;
+    }
 
-.bio .highlight {
-    font-weight: 600;
-}
+    /* Кнопка ЛС */
+    .profile-actions {
+        display: flex;
+        margin-top: 4px;
+    }
 
-/* Кнопка ЛС */
-.profile-actions {
-    display: flex;
-    margin-top: 4px;
-}
+    .btn-small {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 16px;
+        border-radius: 12px;
+        font-size: 15px;
+        font-weight: 500;
+        color: #fff;
+        background: rgba(255, 255, 255, 0.1);
+        transition: background 0.2s;
+    }
 
-.btn-small {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 16px;
-    border-radius: 12px;
-    font-size: 15px;
-    font-weight: 500;
-    color: #fff;
-    background: rgba(255, 255, 255, 0.1);
-    transition: background 0.2s;
-}
+    .btn-small:hover {
+        background: rgba(255, 255, 255, 0.15);
+    }
 
-.btn-small:hover {
-    background: rgba(255, 255, 255, 0.15);
-}
+    /* Головна кнопка (БОТ) */
+    .main-action-wrapper {
+        margin: 0;
+        background: var(--glass-bg);
+        backdrop-filter: blur(45px) saturate(160%);
+        -webkit-backdrop-filter: blur(45px) saturate(160%);
+        border-radius: 18px;
+        border: 0.5px solid var(--glass-border);
+        overflow: hidden;
+    }
 
-/* Головна кнопка (БОТ) */
-.main-action-wrapper {
-    margin: 0;
-    background: var(--glass-bg);
-    backdrop-filter: blur(45px) saturate(160%);
-    -webkit-backdrop-filter: blur(45px) saturate(160%);
-    border-radius: 18px;
-    border: 0.5px solid var(--glass-border);
-    overflow: hidden;
-}
+    .btn-main {
+        color: #fff;
+        padding: 16px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transition: background 0.2s;
+    }
 
-.btn-main {
-    color: #fff;
-    padding: 16px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    transition: background 0.2s;
-}
+    .btn-main-content {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
 
-.btn-main-content {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-}
+    .bot-icon {
+        font-size: 24px;
+        color: var(--accent-blue);
+    }
 
-.bot-icon {
-    font-size: 24px;
-    color: var(--accent-blue);
-}
+    .btn-text {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
 
-.btn-text {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
+    .btn-title {
+        font-size: 16px;
+        font-weight: 500;
+    }
 
-.btn-title {
-    font-size: 16px;
-    font-weight: 500;
-}
+    .btn-subtitle {
+        font-size: 13px;
+        color: var(--text-muted);
+    }
 
-.btn-subtitle {
-    font-size: 13px;
-    color: var(--text-muted);
-}
+    .btn-main:hover {
+        background: rgba(255, 255, 255, 0.05);
+    }
 
-.btn-main:hover {
-    background: rgba(255, 255, 255, 0.05);
-}
+    .arrow-icon {
+        color: var(--text-muted);
+        font-size: 16px;
+    }
 
-.arrow-icon {
-    color: var(--text-muted);
-    font-size: 16px;
-}
+    /* Список посилань */
+    .links-section {
+        display: flex;
+        flex-direction: column;
+        background: var(--glass-bg);
+        backdrop-filter: blur(45px) saturate(160%);
+        -webkit-backdrop-filter: blur(45px) saturate(160%);
+        border-radius: 18px;
+        border: 0.5px solid var(--glass-border);
+        overflow: hidden;
+    }
 
-/* Список посилань */
-.links-section {
-    display: flex;
-    flex-direction: column;
-    background: var(--glass-bg);
-    backdrop-filter: blur(45px) saturate(160%);
-    -webkit-backdrop-filter: blur(45px) saturate(160%);
-    border-radius: 18px;
-    border: 0.5px solid var(--glass-border);
-    overflow: hidden;
-}
+    .link-card {
+        display: flex;
+        align-items: center;
+        padding: 14px 16px;
+        gap: 14px;
+        border-bottom: 0.5px solid rgba(255, 255, 255, 0.05);
+        transition: background 0.2s;
+    }
 
-.link-card {
-    display: flex;
-    align-items: center;
-    padding: 14px 16px;
-    gap: 14px;
-    border-bottom: 0.5px solid rgba(255, 255, 255, 0.05);
-    transition: background 0.2s;
-}
+    .link-card:last-child {
+        border-bottom: none;
+    }
 
-.link-card:last-child {
-    border-bottom: none;
-}
+    .link-card:hover {
+        background: rgba(255, 255, 255, 0.05);
+    }
 
-.link-card:hover {
-    background: rgba(255, 255, 255, 0.05);
-}
+    .card-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        color: #fff;
+    }
 
-.card-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    color: #fff;
-}
+    /* Telegram Кольори іконок */
+    .tg-group {
+        background: #34C759;
+    }
 
-/* Telegram Кольори іконок */
-.tg-group {
-    background: #34C759;
-}
+    .project-1 {
+        background: #007AFF;
+    }
 
-.project-1 {
-    background: #007AFF;
-}
+    .project-2 {
+        background: #AF52DE;
+    }
 
-.project-2 {
-    background: #AF52DE;
-}
+    .card-content {
+        flex: 1;
+    }
 
-.card-content {
-    flex: 1;
-}
+    .card-content h4 {
+        font-size: 15px;
+        font-weight: 500;
+        margin-bottom: 2px;
+        color: #fff;
+    }
 
-.card-content h4 {
-    font-size: 15px;
-    font-weight: 500;
-    margin-bottom: 2px;
-    color: #fff;
-}
+    .card-content p {
+        font-size: 13px;
+        color: var(--text-muted);
+        line-height: 1.2;
+    }
 
-.card-content p {
-    font-size: 13px;
-    color: var(--text-muted);
-    line-height: 1.2;
-}
+    .external-icon {
+        color: var(--text-muted);
+        font-size: 14px;
+    }
 
-.external-icon {
-    color: var(--text-muted);
-    font-size: 14px;
-}
+    .link-card:hover .external-icon {
+        color: rgba(255, 255, 255, 0.7);
+    }
 
-.link-card:hover .external-icon {
-    color: rgba(255, 255, 255, 0.7);
-}
-
-/* --- Entrance Animations (Telegram Cascade Style) --- */
-.animate-on-load {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes fadeUp {
-    from {
+    /* --- Entrance Animations (Telegram Cascade Style) --- */
+    .animate-on-load {
         opacity: 0;
         transform: translateY(20px);
+        animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    @keyframes fadeUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
-}
 
-/* Затримки для каскадного ефекту */
-.delay-1 {
-    animation-delay: 0.1s;
-}
+    /* Затримки для каскадного ефекту */
+    .delay-1 {
+        animation-delay: 0.1s;
+    }
 
-.delay-2 {
-    animation-delay: 0.2s;
-}
+    .delay-2 {
+        animation-delay: 0.2s;
+    }
 
-.delay-3 {
-    animation-delay: 0.3s;
-}
+    .delay-3 {
+        animation-delay: 0.3s;
+    }
 
-.delay-4 {
-    animation-delay: 0.4s;
-}
+    .delay-4 {
+        animation-delay: 0.4s;
+    }
 
-/* Анімація натискання */
-.link-card:active,
-.btn-small:active,
-.main-action-wrapper:active,
-.lang-btn:active {
-    transform: scale(0.97);
-    filter: brightness(1.2);
-    transition: transform 0.1s ease-out, filter 0.1s ease-out;
-}
+    /* Анімація натискання */
+    .link-card:active,
+    .btn-small:active,
+    .main-action-wrapper:active,
+    .lang-btn:active {
+        transform: scale(0.97);
+        filter: brightness(1.2);
+        transition: transform 0.1s ease-out, filter 0.1s ease-out;
+    }
