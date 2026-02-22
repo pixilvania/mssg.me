@@ -23,9 +23,9 @@
 html {
     margin: 0;
     padding: 0;
-    /* Safari використовує background html для зони за safe area (нотч, home indicator, адресний бар) */
-    background-color: #000;
-    /* Забороняємо rubber-band overscroll, щоб не показувати html-фон (#000) при потягуванні */
+    /* Замість чорного кольору ставимо картинку як базовий фон */
+    /* При overscroll користувач побачить шматок картинки, а не чорне */
+    background: #1c1c1e url('bg.webp') center center / cover no-repeat fixed;
     overscroll-behavior: none;
     -webkit-overscroll-behavior: none;
 }
@@ -34,10 +34,9 @@ body {
     margin: 0;
     padding: 0;
     width: 100%;
-    min-height: 100vh;
-    min-height: 100lvh;
+    /* dvh (dynamic viewport height) — враховує панелі Safari */
+    min-height: 100dvh;
     background: transparent;
-    /* Фактичний фон буде у псевдоелемента */
     color: var(--text-main);
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
     -webkit-tap-highlight-color: transparent;
@@ -45,27 +44,25 @@ body {
     user-select: none;
     display: flex;
     justify-content: center;
-    /* Скрол контенту відбувається на body */
-    overflow-y: auto;
-    /* Забороняємо overscroll bounce, щоб краї фону не проглядали */
+    /* ВАЖЛИВО: overflow-y НЕ задаємо — нативний скрол сторінки, position: fixed працює */
+    overflow-x: hidden;
     overscroll-behavior-y: none;
     -webkit-overscroll-behavior-y: none;
 }
 
-/* Фон на весь екран: розтягуємо далеко за межі viewport + safe area, */
-/* щоб зображення пролазило під нотч, home indicator та адресний бар Safari */
+/* Фон на весь екран: робимо полотно на 20% більшим за екран і центруємо */
+/* Гарантовано покриває всі зміни розміру при появі/зникненні адресної стрічки Safari */
 body::before {
     content: '';
     position: fixed;
-    /* Розтягуємо за межі viewport з запасом + safe area inset */
-    top: calc(-200px - env(safe-area-inset-top, 0px));
-    left: calc(-20px - env(safe-area-inset-left, 0px));
-    right: calc(-20px - env(safe-area-inset-right, 0px));
-    bottom: calc(-200px - env(safe-area-inset-bottom, 0px));
+    top: -10%;
+    left: -10%;
+    width: 120%;
+    height: 120vh;
+    /* vh, щоб фон не стрибав при зміні висоти dvh */
     z-index: -2;
     background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-        url('Gemini_Generated_Image_2dgb6p2dgb6p2dgb.png') center center / cover no-repeat;
-    background-color: #000;
+        url('bg.webp') center center / cover no-repeat;
     pointer-events: none;
     transform: translateZ(0);
     will-change: transform;
@@ -98,9 +95,8 @@ body[data-lang="en"] .lang-uk {
 .container {
     width: 100%;
     max-width: 480px;
-    min-height: 100vh;
-    min-height: calc(100lvh + 2px);
-    /* +2px щоб Safari мав що скролити і згорнув свої бари */
+    /* dvh враховує панелі мобільних браузерів */
+    min-height: 100dvh;
 
     /* Збільшуємо padding щоб контент не залазив під бари, але сам контейнер був під ними */
     padding: calc(max(20px, env(safe-area-inset-top)) + 40px) 20px calc(max(20px, env(safe-area-inset-bottom)) + 40px);
