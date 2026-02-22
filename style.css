@@ -31,7 +31,6 @@
 
 /* Ультимативний фікс для iOS Safari */
 html {
-    /* Робимо низ чорним, щоб не було ніякої "синьої бороди" знизу при відтягуванні */
     background-color: #000;
 }
 
@@ -44,55 +43,20 @@ body {
     position: relative;
 }
 
-/* Фарбуємо "гумовий" відскок тільки зверху (над плашкою) у потрібний колір */
-body::before {
-    content: '';
-    position: absolute;
-    top: -100vh;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: #435563;
-    /* Темно-синій для верхньої чолки/резинки */
-    z-index: -1;
-}
-
-/* Обгортка всього контенту, яка тримає фон, що скролиться */
+/* Обгортка всього контенту з фоном, який має закруглені кути вгорі */
 .scroll-wrapper {
-    min-height: 100vh;
+    min-height: calc(100vh - env(safe-area-inset-top));
     background-color: #000;
     background-image: url('bg.webp');
     background-position: center top;
-    /* Картинка розтягується на всю ширину і скролиться доки не закінчиться */
-    background-size: 100% auto;
+    /* Картинка гарантовано не буде більшою за саму себе */
+    background-size: cover;
     background-repeat: no-repeat;
-}
-
-/* Верхня плашка (Top Bar) */
-.top-bar {
-    width: 100%;
-    /* Колір, який ти скинув (сталевий синій) */
-    background-color: #435563;
-    /* Відступ зверху під чолку + внутрішній відступ */
-    padding-top: max(env(safe-area-inset-top), 20px);
-    padding-bottom: 16px;
-    padding-left: 20px;
-    padding-right: 20px;
-    text-align: center;
-    position: relative;
-    z-index: 100;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
-    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-}
-
-.top-bar h1 {
-    margin: 0;
-    font-size: 24px;
-    font-weight: 800;
-    letter-spacing: 2px;
-    color: #fff;
-    font-family: "Inter", -apple-system, sans-serif;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    /* Відступ зверху від чолки (або 0, якщо її нема) */
+    margin-top: env(safe-area-inset-top);
+    /* Закруглені кути як в айфона, тільки зверху */
+    border-radius: 32px 32px 0 0;
+    overflow: hidden;
 }
 
 body {
@@ -125,9 +89,9 @@ body[data-lang="en"] .lang-uk {
 .container {
     width: 100%;
     max-width: 480px;
-    /* Контент починається відразу під верхньою плашкою */
-    min-height: 100vh;
-    padding: 40px 20px 80px 20px;
+    /* Контент починається зі значним відступом, аналогічно до скріншота */
+    min-height: calc(100vh - env(safe-area-inset-top));
+    padding: 80px 20px 80px 20px;
     margin: 0 auto;
     position: relative;
     z-index: 2;
