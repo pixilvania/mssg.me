@@ -27,41 +27,21 @@ body {
     margin: 0;
     padding: 0;
     width: 100%;
-    /* ВИДАЛЯЄМО жорсткі height: 100% та -webkit-fill-available! 
-       Вони ламають розрахунок розміру сторінки і ріжуть нижні кнопки. */
     min-height: 100vh;
-    /* Фоллбек */
-    min-height: 100dvh;
-    /* Дозволяємо контенту рости */
+    min-height: 100svh;
     overflow-x: hidden;
     background-color: #000;
-    /* Повернено чорний фон, щоб згладити будь-які мікрозатримки завантаження */
 }
 
-/* Ідеальний фон для iOS Safari: використовуємо виділений DOM елемент
-   замість псевдоелементів чи background-attachment, бо Safari 
-   їх дуже погано рендерить при скролі. */
-#fixed-bg {
-    position: fixed;
-    /* Використовуємо Large Viewport Height (lvh).
-       Ця висота відповідає екрану, коли адресний рядок СХОВАНИЙ (найбільший розмір).
-       Це означає, що фон завжди покриє "низ", і чорної смуги не буде. */
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    /* Фоллбек */
-    height: 100lvh;
-    /* Сучасний фікс */
-
-    background: #000 url('bg.jpg') center top / cover no-repeat;
-    z-index: 0;
-    /* 0, щоб не ховався під 'transparent' parent */
-    pointer-events: none;
-    transition: none;
+body {
+    background-image: url('bg.jpg');
+    background-position: center top;
+    background-size: cover;
+    background-repeat: no-repeat;
+    /* Відпускаємо фон разом зі сторінкою — найнадійніший "ядерний" фікс для iOS Safari */
+    background-attachment: scroll;
 }
 
-/* Категорично забороняємо анімації для фону при зміні висоти */
 body {
     color: var(--text-main);
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
