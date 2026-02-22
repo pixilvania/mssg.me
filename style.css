@@ -31,8 +31,10 @@
 
 /* Ультимативний фікс (Стиль Картки) для iOS Safari */
 html {
-    /* Темно-кам'яний колір з будівлі на тлі */
-    background-color: #1a1e23;
+    /* Темно-синій колір (за запитом користувача) */
+    background-color: #435563;
+    /* Запобігаємо тому, щоб Safari відтягував сторінку за нижній край картинки */
+    overscroll-behavior-y: none;
 }
 
 body {
@@ -48,12 +50,17 @@ body {
     overflow: hidden;
 
     /* Основний фон (картки) */
-    background-color: transparent;
-    background-image: url('bg.jpg');
-    background-position: center center;
+    background-color: #435563;
+    /* Фолбек колір під картинку */
+    background-image: url('bg.webp');
+    background-position: center bottom;
+    /* Вирівнюємо по низу, щоб гарантувати, що низ заповнений */
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: scroll;
+
+    /* Заборона відскоку тільки для тіла сторінки */
+    overscroll-behavior-y: none;
 }
 
 body {
