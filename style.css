@@ -31,8 +31,8 @@
 
 /* Ультимативний фікс (Стиль Картки) для iOS Safari */
 html {
-    /* Це колір "рамочки", який буде видно під чолкою і знизу */
-    background-color: #435563;
+    /* Темно-кам'яний колір з будівлі на тлі */
+    background-color: #1a1e23;
 }
 
 body {
@@ -88,8 +88,8 @@ body[data-lang="en"] .lang-uk {
     max-width: 480px;
     /* Висота контейнера тепер враховує тільки верхній відступ */
     min-height: calc(100vh - env(safe-area-inset-top));
-    /* Внутрішні відступи для контенту (залишаємо запас знизу для хоум-індикатора всередині картки) */
-    padding: 40px 20px calc(env(safe-area-inset-bottom) + 40px) 20px;
+    /* Внутрішні відступи для контенту (знизу 40px без прив'язки до safe-area) */
+    padding: 40px 20px 40px 20px;
     margin: 0 auto;
     position: relative;
     z-index: 2;
