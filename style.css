@@ -31,8 +31,8 @@
 
 /* Ультимативний фікс для iOS Safari */
 html {
-    /* Темно-синій колір для "гумового" відскоку вгорі та внизу */
-    background-color: #435563;
+    /* Резинка знизу буде чорна, решта — це картинка, а зверху — плашка */
+    background-color: #000;
 }
 
 body {
@@ -43,7 +43,7 @@ body {
     overflow-x: hidden;
 }
 
-/* Статичний фон на весь екран, який не буде розтягуватися чи закінчуватися при скролі */
+/* Статичний фон на весь екран, який ідеально стоїть на місці */
 body::before {
     content: '';
     position: fixed;
@@ -52,7 +52,7 @@ body::before {
     width: 100vw;
     height: 100vh;
 
-    background-color: #435563;
+    background-color: #000;
     background-image: url('bg.webp');
     background-position: center top;
     background-size: cover;
@@ -60,6 +60,29 @@ body::before {
 
     z-index: -1;
     pointer-events: none;
+}
+
+/* Верхня плашка (Top Bar) */
+.top-bar {
+    width: 100%;
+    /* Колір, який ти скинув (сталевий синій) */
+    background-color: #435563;
+    padding: calc(16px + env(safe-area-inset-top)) 20px 16px 20px;
+    text-align: center;
+    position: relative;
+    z-index: 10;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.top-bar h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #fff;
+    font-family: "Inter", -apple-system, sans-serif;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 body {
@@ -92,16 +115,14 @@ body[data-lang="en"] .lang-uk {
 .container {
     width: 100%;
     max-width: 480px;
+    /* Контент починається відразу під верхньою плашкою */
     min-height: 100vh;
-    /* Значно збільшуємо верхній відступ, як на твоєму скріншоті, 
-       щоб контент починався нижче і сторінку можна було скролити */
-    padding: calc(max(100px, env(safe-area-inset-top)) + 80px) 20px 80px 20px;
+    padding: 40px 20px 80px 20px;
     margin: 0 auto;
     position: relative;
     z-index: 2;
     display: flex;
     flex-direction: column;
-    /* Контент починається зверху, що робить сторінку довгою і скроленою */
     justify-content: flex-start;
     gap: 16px;
 }
