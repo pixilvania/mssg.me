@@ -25,17 +25,14 @@ body {
     margin: 0;
     padding: 0;
     min-height: 100vh;
-    /* У відповідності до офіційних стандартів Apple WebKit:
-       Фон має задаватися для body, а Safari сам розширить його на safe areas 
-       через meta viewport-fit=cover */
     background-color: #000;
     background-image: url('bg.jpg');
-    background-position: center top;
+    /* Показуємо середину фону, як просив користувач */
+    background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
-    /* Звичайний scroll зазвичай найбезпечніший, але спробуємо fixed за офіційним стандартом,
-       оскільки ми прибрали хакерські висоти */
-    background-attachment: fixed;
+    /* Повертаємо scroll, щоб уникнути багу iOS з "зумом" фіксованих фонів */
+    background-attachment: scroll;
 }
 
 body {
@@ -69,16 +66,15 @@ body[data-lang="en"] .lang-uk {
     width: 100%;
     max-width: 480px;
     min-height: 100dvh;
-    /* Сильно збільшуємо відступ зверху, щоб контент "сповз" вниз 
-       і дав картинці красиво зайти за чолку */
-    padding: calc(max(100px, env(safe-area-inset-top)) + 80px) 20px calc(max(20px, env(safe-area-inset-bottom)) + 120px);
+    /* Акуратний відступ з урахуванням безпечних зон */
+    padding: calc(env(safe-area-inset-top) + 40px) 20px calc(env(safe-area-inset-bottom) + 40px);
     margin: 0 auto;
     position: relative;
     z-index: 2;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    /* Вимикаємо жорстку центровку */
+    /* Центруємо весь контент вертикально посередині екрану */
+    justify-content: center;
     gap: 16px;
 }
 
