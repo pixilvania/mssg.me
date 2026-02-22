@@ -34,8 +34,8 @@ body {
     min-height: 100dvh;
     /* Дозволяємо контенту рости */
     overflow-x: hidden;
-    background-color: transparent;
-    /* Не забороняємо overscroll-behavior-y жорстко, бо це може блокувати PTR */
+    background-color: #000;
+    /* Повернено чорний фон, щоб згладити будь-які мікрозатримки завантаження */
 }
 
 /* Ідеальний фон для iOS Safari: використовуємо виділений DOM елемент
@@ -43,19 +43,22 @@ body {
    їх дуже погано рендерить при скролі. */
 #fixed-bg {
     position: fixed;
-    /* Головний трюк: робимо фон більшим за екран і "ховаємо" краї.
-       Це гарантує, що при "відскоках" (bounce) ми не побачимо пустоти */
-    top: -50px;
-    bottom: -50px;
-    left: -50px;
-    right: -50px;
+    /* Використовуємо Large Viewport Height (lvh).
+       Ця висота відповідає екрану, коли адресний рядок СХОВАНИЙ (найбільший розмір).
+       Це означає, що фон завжди покриє "низ", і чорної смуги не буде. */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    /* Фоллбек */
+    height: 100lvh;
+    /* Сучасний фікс */
 
     background: #000 url('bg.jpg') center top / cover no-repeat;
-    z-index: -1;
+    z-index: 0;
+    /* 0, щоб не ховався під 'transparent' parent */
     pointer-events: none;
-    -webkit-transform: translate3d(0, 0, 0);
-    /* Hardware accel + fix for some rendering bugs */
-    transform: translate3d(0, 0, 0);
+    transition: none;
 }
 
 /* Категорично забороняємо анімації для фону при зміні висоти */
