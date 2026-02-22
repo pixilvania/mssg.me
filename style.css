@@ -21,10 +21,8 @@ body {
     margin: 0;
     padding: 0;
     width: 100%;
-    height: 100dvh;
-    /* Жорстко фіксуємо під висоту екрана */
-    overflow: hidden;
-    /* Повністю вимикаємо будь-який скрол */
+    min-height: 120vh;
+    /* Повертаємо запас під низ Safari */
 }
 
 html {
@@ -62,21 +60,17 @@ body[data-lang="en"] .lang-uk {
     width: 100%;
     max-width: 480px;
     min-height: 100dvh;
-    padding: calc(max(20px, env(safe-area-inset-top)) + 40px) 20px calc(max(20px, env(safe-area-inset-bottom)) + 40px);
-    margin-top: -40px;
-    margin-bottom: -40px;
+    /* Сильно збільшуємо відступ зверху, щоб контент "сповз" вниз 
+       і дав картинці красиво зайти за чолку */
+    padding: calc(max(100px, env(safe-area-inset-top)) + 80px) 20px calc(max(20px, env(safe-area-inset-bottom)) + 120px);
+    margin: 0 auto;
     position: relative;
     z-index: 2;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
+    /* Вимикаємо жорстку центровку */
     gap: 16px;
-}
-
-.container::before,
-.container::after {
-    content: '';
-    margin: auto;
 }
 
 a {
