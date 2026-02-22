@@ -22,18 +22,27 @@ html {
     background: #000;
 }
 
+/* Ядерний фікс для iOS: щоб фон заходив під "чолку" і нижню панель */
+body::before {
+    content: '';
+    position: fixed;
+    top: -100px;
+    left: -100px;
+    right: -100px;
+    bottom: -100px;
+    background-image: url('bg.webp');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    z-index: -10;
+    pointer-events: none;
+}
+
 body {
     margin: 0;
     padding: 0;
     width: 100%;
     min-height: 100vh;
-
-    /* ФОН — простий підхід */
-    background-image: url('bg.webp');
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
 
     color: var(--text-main);
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
