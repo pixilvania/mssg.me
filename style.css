@@ -36,14 +36,18 @@ body {
    їх дуже погано рендерить при скролі. */
 #fixed-bg {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100vw;
-    height: 100%;
+    top: -10vh;
+    left: -10vw;
+    width: 120vw;
+    height: 120vh;
+    /* Сучасні одиниці LHV (Large Viewport Height), які НЕ ЗМІНЮЮТЬСЯ
+       при згортанні/розгортанні адресної стрічки на iOS 15+! */
+    top: -10lvh;
+    left: -10lvw;
+    width: 120lvw;
+    height: 120lvh;
     /* Додаємо картинку сюди. Вона буде статичною відносно вікна. */
-    background: #000 url('bg.jpg') center top / cover no-repeat;
+    background: transparent url('bg.jpg') center top / cover no-repeat;
     z-index: -10;
     pointer-events: none;
 }
