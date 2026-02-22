@@ -31,7 +31,7 @@ body {
     padding: 0;
     width: 100%;
     min-height: 100dvh;
-    background: #000;
+    background: transparent;
     color: var(--text-main);
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
     -webkit-tap-highlight-color: transparent;
@@ -42,6 +42,8 @@ body {
     overflow-x: hidden;
     overscroll-behavior-y: none;
     -webkit-overscroll-behavior-y: none;
+    /* Створюємо стекінг контекст — без цього z-index дітей провалюється за html */
+    isolation: isolate;
 }
 
 /* Фоновий div — position:fixed, розтягнутий за межі екрану на 100px з кожного боку.
@@ -54,7 +56,7 @@ body {
     left: -100px;
     right: -100px;
     bottom: -100px;
-    z-index: -2;
+    z-index: 1;
     background: url('bg.webp') center center / cover no-repeat;
     pointer-events: none;
     /* GPU прискорення щоб не було миготіння */
@@ -69,7 +71,7 @@ body {
     left: -100px;
     right: -100px;
     bottom: -100px;
-    z-index: -1;
+    z-index: 2;
     background: rgba(0, 0, 0, 0.4);
     pointer-events: none;
     transform: translateZ(0);
@@ -92,7 +94,7 @@ body[data-lang="en"] .lang-uk {
     bottom: calc(-1 * env(safe-area-inset-bottom, 0px));
     width: auto;
     height: auto;
-    z-index: 0;
+    z-index: 3;
     pointer-events: none;
 }
 
@@ -104,7 +106,7 @@ body[data-lang="en"] .lang-uk {
     margin-top: -40px;
     margin-bottom: -40px;
     position: relative;
-    z-index: 2;
+    z-index: 4;
     display: flex;
     flex-direction: column;
     justify-content: center;
