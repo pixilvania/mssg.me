@@ -206,6 +206,8 @@ body[data-lang="en"] .lang-uk {
     object-fit: cover;
     object-position: center 40%;
     -webkit-user-drag: none;
+    /* Повільний наплив камери на туманність */
+    animation: kenBurns 46s ease-in-out infinite alternate;
     -webkit-mask-image: linear-gradient(180deg,
             #000 0%,
             #000 42%,
@@ -218,6 +220,16 @@ body[data-lang="en"] .lang-uk {
             rgba(0, 0, 0, 0.75) 66%,
             rgba(0, 0, 0, 0.28) 86%,
             rgba(0, 0, 0, 0) 100%);
+}
+
+@keyframes kenBurns {
+    from {
+        transform: scale(1) translate3d(0, 0, 0);
+    }
+
+    to {
+        transform: scale(1.09) translate3d(-1.5%, 1%, 0);
+    }
 }
 
 /* Затемнення банера градієнтом (Reddit-style) */
@@ -303,13 +315,68 @@ body[data-lang="en"] .lang-uk {
     flex-shrink: 0;
 }
 
+/* Портальне кільце, що обертається навколо аватара */
+.avatar-container::before {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg,
+            rgba(163, 124, 255, 0) 0deg,
+            rgba(163, 124, 255, 0.85) 70deg,
+            rgba(69, 224, 208, 0.7) 160deg,
+            rgba(255, 95, 168, 0.8) 250deg,
+            rgba(163, 124, 255, 0) 360deg);
+    filter: blur(5px);
+    animation: portalSpin 14s linear infinite;
+    z-index: 0;
+}
+
+/* Пульсуюче сяйво порталу */
+.avatar-container::after {
+    content: "";
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    box-shadow: 0 0 26px rgba(140, 90, 255, 0.55);
+    animation: portalPulse 5s ease-in-out infinite;
+    z-index: 0;
+}
+
+@keyframes portalSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes portalPulse {
+
+    0%,
+    100% {
+        opacity: 0.35;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.8;
+        transform: scale(1.06);
+    }
+}
+
 .avatar {
+    position: relative;
+    z-index: 1;
     display: block;
     width: 72px;
     height: 72px;
     border-radius: 50%;
     object-fit: cover;
     background: #0b0b16;
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.profile-card:hover .avatar {
+    transform: scale(1.05);
 }
 
 .profile-info {
@@ -370,6 +437,24 @@ body[data-lang="en"] .lang-uk {
     color: var(--accent-blue);
 }
 
+.chip:nth-child(2) i {
+    animation: infinityGlow 4.5s ease-in-out infinite;
+}
+
+@keyframes infinityGlow {
+
+    0%,
+    100% {
+        color: var(--accent-blue);
+        filter: drop-shadow(0 0 0 rgba(163, 124, 255, 0));
+    }
+
+    50% {
+        color: #a37cff;
+        filter: drop-shadow(0 0 6px rgba(163, 124, 255, 0.9));
+    }
+}
+
 /* Кнопка «написати» */
 .profile-actions {
     display: flex;
@@ -411,12 +496,48 @@ body[data-lang="en"] .lang-uk {
 }
 
 .btn-play {
+    position: relative;
+    overflow: hidden;
     color: #fff;
     display: flex;
     align-items: center;
     gap: 14px;
     padding: 16px 20px;
     transition: background 0.2s;
+}
+
+/* Промінь світла, що періодично пробігає по кнопці */
+.btn-play::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 45%;
+    pointer-events: none;
+    background: linear-gradient(100deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.09) 50%,
+            rgba(255, 255, 255, 0) 100%);
+    transform: translateX(-160%);
+    animation: sheen 7s ease-in-out infinite;
+}
+
+.btn-play:nth-child(2)::before {
+    animation-delay: 3.5s;
+}
+
+@keyframes sheen {
+
+    0%,
+    72%,
+    100% {
+        transform: translateX(-160%);
+    }
+
+    92% {
+        transform: translateX(320%);
+    }
 }
 
 .btn-play+.btn-play {
@@ -442,6 +563,49 @@ body[data-lang="en"] .lang-uk {
 
 .play-icon.web {
     color: #AF52DE;
+}
+
+.play-icon,
+.card-icon {
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.25s ease;
+}
+
+.btn-play:hover .play-icon,
+.link-card:hover .card-icon {
+    transform: scale(1.12);
+    filter: brightness(1.25);
+}
+
+/* Глобус повільно обертається, як справжня планета */
+.play-icon.web i {
+    display: block;
+    animation: globeSpin 11s linear infinite;
+}
+
+@keyframes globeSpin {
+    to {
+        transform: rotateY(360deg);
+    }
+}
+
+/* Іконка Telegram легенько «дихає» */
+.play-icon.tg i {
+    display: block;
+    animation: tgPulse 3.5s ease-in-out infinite;
+}
+
+@keyframes tgPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 0 rgba(42, 171, 238, 0));
+    }
+
+    50% {
+        transform: scale(1.08);
+        filter: drop-shadow(0 0 8px rgba(42, 171, 238, 0.65));
+    }
 }
 
 .btn-text {
@@ -558,18 +722,20 @@ body[data-lang="en"] .lang-uk {
 .animate-on-load {
     opacity: 0;
     transform: translateY(40px) scale(0.98);
-    animation: fadeUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    animation: fadeUp 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
 @keyframes fadeUp {
     from {
         opacity: 0;
         transform: translateY(40px) scale(0.98);
+        filter: blur(8px);
     }
 
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
+        filter: blur(0);
     }
 }
 
@@ -602,13 +768,20 @@ body[data-lang="en"] .lang-uk {
 @media (prefers-reduced-motion: reduce) {
 
     .animate-on-load,
-    .blob {
-        animation: none;
+    .blob,
+    .banner-img,
+    .btn-play::before,
+    .avatar-container::before,
+    .avatar-container::after,
+    .play-icon i,
+    .chip i {
+        animation: none !important;
     }
 
     .animate-on-load {
         opacity: 1;
         transform: none;
+        filter: none;
     }
 }
 

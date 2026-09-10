@@ -96,24 +96,113 @@ class Particle {
     }
 }
 
+// --- Метеори: зрідка через небо пролітає падаюча зірка ---
+class Meteor {
+    constructor() {
+        this.reset();
+    }
+    reset() {
+        // Летить по діагоналі вниз-праворуч, стартує зверху або зліва
+        this.x = Math.random() * width * 0.7 - width * 0.1;
+        this.y = -40 - Math.random() * height * 0.2;
+        this.speed = 6 + Math.random() * 5;
+        this.length = 80 + Math.random() * 140;
+        this.angle = Math.PI / 5 + Math.random() * 0.25;
+        this.alpha = 0;
+        this.fade = 'in';
+        this.color = Math.random() < 0.5 ? '186, 150, 255' : '255, 255, 255';
+        this.done = false;
+    }
+    update() {
+        this.x += Math.cos(this.angle) * this.speed;
+        this.y += Math.sin(this.angle) * this.speed;
+
+        if (this.fade === 'in') {
+            this.alpha += 0.05;
+            if (this.alpha >= 0.9) this.fade = 'out';
+        } else {
+            this.alpha -= 0.012;
+        }
+
+        if (this.alpha <= 0 || this.y > height + this.length || this.x > width + this.length) {
+            this.done = true;
+        }
+    }
+    draw() {
+        const tailX = this.x - Math.cos(this.angle) * this.length;
+        const tailY = this.y - Math.sin(this.angle) * this.length;
+        const grad = ctx.createLinearGradient(this.x, this.y, tailX, tailY);
+        grad.addColorStop(0, `rgba(${this.color}, ${Math.max(this.alpha, 0)})`);
+        grad.addColorStop(1, `rgba(${this.color}, 0)`);
+
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 1.6;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y);
+        ctx.lineTo(tailX, tailY);
+        ctx.stroke();
+    }
+}
+
+const meteors = [];
+let nextMeteorAt = performance.now() + 2000;
+
+function scheduleMeteor(now) {
+    // Наступна падаюча зірка через 4-11 секунд
+    nextMeteorAt = now + 4000 + Math.random() * 7000;
+}
+
 function init() {
     for (let i = 0; i < numberOfParticles; i++) {
         particlesArray.push(new Particle());
     }
 }
 
-function animate() {
+function animate(now) {
     ctx.clearRect(0, 0, width, height);
+
     for (let i = 0; i < particlesArray.length; i++) {
         particlesArray[i].update();
         particlesArray[i].draw();
     }
+
+    if (now >= nextMeteorAt) {
+        meteors.push(new Meteor());
+        scheduleMeteor(now);
+    }
+
+    for (let i = meteors.length - 1; i >= 0; i--) {
+        meteors[i].update();
+        meteors[i].draw();
+        if (meteors[i].done) meteors.splice(i, 1);
+    }
+
     requestAnimationFrame(animate);
 }
 
-if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+if (!reducedMotion) {
     init();
-    animate();
+    requestAnimationFrame(animate);
+}
+
+// ============================================================
+// 1b. Паралакс банера — картинка відстає від скролу
+// ============================================================
+if (!reducedMotion) {
+    const banner = document.querySelector('.banner');
+    let ticking = false;
+
+    window.addEventListener('scroll', () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+            banner.style.transform = `translate3d(0, ${window.scrollY * 0.32}px, 0)`;
+            ticking = false;
+        });
+    }, { passive: true });
 }
 
 // ============================================================
