@@ -7,21 +7,21 @@
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#435563">
+    <meta name="theme-color" content="#0a0a14">
     <meta name="color-scheme" content="dark">
-    <title>Survival Portfolio | Візитка</title>
+    <title>The Multiverse | @AnyWorldBot</title>
 
-    <!-- Open Graph Meta Tags (Для красивих прев'ю в Telegram) -->
-    <meta property="og:title" content="Вцілілий | Вайбкодер">
+    <!-- Open Graph Meta Tags (для прев'ю в Telegram) -->
+    <meta property="og:title" content="The Multiverse">
     <meta property="og:description"
-        content="Коджу, малюю, виживаю. Автор RPG гри UC044. Перетворю ваші ідеї на діджитал-арт, розумних ботів та круті сайти.">
-    <meta property="og:image" content="avatarka.JPG">
+        content="Нескінченні світи — одна платформа. Текстова RPG на багато всесвітів у Telegram.">
+    <meta property="og:image" content="avatar.jpg">
     <meta property="og:type" content="website">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
@@ -29,118 +29,126 @@
 </head>
 
 <body data-lang="uk">
-    <div class="scroll-wrapper">
-        <!-- Canvas для ефекту попелу/пилу -->
-        <canvas id="ash-canvas"></canvas>
+    <!-- Кольорові плями, які просвічують крізь скло (щоб blur мав що розмивати) -->
+    <div class="ambient" aria-hidden="true">
+        <span class="blob blob-violet"></span>
+        <span class="blob blob-cyan"></span>
+        <span class="blob blob-magenta"></span>
+    </div>
 
-        <main class="container">
-            <!-- Шапка сайту з перемикачем мов -->
-            <header class="header animate-on-load delay-1">
-                <!-- Перемикач мови -->
-                <div class="lang-switcher">
+    <!-- Canvas для зоряного пилу -->
+    <canvas id="ash-canvas" aria-hidden="true"></canvas>
+
+    <div class="page">
+        <!-- Reddit-style банер із затемненням у градієнт -->
+        <header class="banner">
+            <img src="banner.jpg" alt="" class="banner-img" draggable="false">
+            <div class="banner-shade"></div>
+
+            <!-- Перемикач мови поверх банера -->
+            <div class="topbar">
+                <div class="lang-switcher glass glass-sm">
                     <button class="lang-btn active" data-lang-target="uk">UK</button>
                     <span class="divider">|</span>
                     <button class="lang-btn" data-lang-target="en">EN</button>
                 </div>
-            </header>
-
-            <!-- Головна картка профілю -->
-            <div class="animate-on-load delay-2">
-                <section class="profile-card glass-panel tilt breathing">
-                    <div class="profile-header">
-                        <div class="avatar-container">
-                            <!-- Аватарка (круглі кути ТГ) -->
-                            <img src="avatarka.JPG" alt="Avatar" class="avatar" draggable="false">
-                        </div>
-                        <div class="profile-info">
-                            <h2 class="name lang-uk">Вцілілий | Вайбкодер</h2>
-                            <h2 class="name lang-en">Survivor | Vibecoder</h2>
-                            <p class="nickname">@pixilvania</p>
-                        </div>
-                    </div>
-
-                    <!-- Маркетингове Біо -->
-                    <p class="bio lang-uk">
-                        Коджу, малюю, виживаю. Автор RPG гри UC044.<br>
-                        Перетворю ваші ідеї на діджитал-арт, розумних ботів та круті сайти.<br>
-                        <span>Кидай виклик моїм можливостям — замов розробку в особистих
-                            повідомленнях.</span>
-                    </p>
-                    <p class="bio lang-en">
-                        I code, draw, and survive. Creator of the UC044 RPG.<br>
-                        I turn your ideas into digital art, smart bots, and awesome websites.<br>
-                        <span>Challenge my capabilities — order development in private
-                            messages.</span>
-                    </p>
-
-                    <!-- Кнопка розмови в ЛС -->
-                    <div class="profile-actions">
-                        <a href="https://t.me/pixilvania" class="btn-small" target="_blank">
-                            <span class="lang-uk">Надіслати повідомлення</span>
-                            <span class="lang-en">Send Message</span>
-                        </a>
-                    </div>
-                </section>
             </div>
+        </header>
 
-            <!-- Центральна велика кнопка (Бот) -->
-            <div class="main-action-wrapper animate-on-load delay-3">
-                <a href="https://t.me/undeadcapital044bot" class="btn-main tilt" target="_blank">
-                    <div class="btn-main-content">
-                        <i class="fas fa-gamepad bot-icon"></i>
-                        <div class="btn-text">
-                            <span class="btn-title lang-uk">Грати в UC044</span>
-                            <span class="btn-title lang-en">Play UC044</span>
-
-                            <span class="btn-subtitle lang-uk">Текстова MUD RPG гра в Telegram</span>
-                            <span class="btn-subtitle lang-en">Text-based MUD RPG game in Telegram</span>
-                        </div>
+        <main class="container">
+            <!-- Головна картка профілю -->
+            <section class="profile-card glass tilt animate-on-load delay-1">
+                <div class="profile-header">
+                    <div class="avatar-container">
+                        <img src="avatar.jpg" alt="The Multiverse" class="avatar" draggable="false">
                     </div>
+                    <div class="profile-info">
+                        <h1 class="name">The Multiverse</h1>
+                        <p class="nickname">@AnyWorldBot</p>
+                    </div>
+                </div>
+
+                <p class="bio lang-uk">
+                    Нескінченні світи — одна платформа. Пірнай у текстову RPG,
+                    де кожен всесвіт живе за своїми правилами.
+                    <span class="bio-accent">Обирай світ, створюй героя, пиши свою історію.</span>
+                </p>
+                <p class="bio lang-en">
+                    Infinite worlds, one platform. Dive into a multi-universe text RPG
+                    where every reality plays by its own rules.
+                    <span class="bio-accent">Pick a world, build a hero, write your own story.</span>
+                </p>
+
+                <div class="chips">
+                    <span class="chip"><i class="fas fa-dice-d20"></i><span class="lang-uk">Текстова RPG</span><span
+                            class="lang-en">Text RPG</span></span>
+                    <span class="chip"><i class="fas fa-infinity"></i><span class="lang-uk">Мультивсесвіт</span><span
+                            class="lang-en">Multiverse</span></span>
+                </div>
+
+                <div class="profile-actions">
+                    <a href="https://t.me/multiverseadministrtor" class="btn-small" target="_blank" rel="noopener">
+                        <i class="fas fa-paper-plane"></i>
+                        <span class="lang-uk">Написати адміну</span>
+                        <span class="lang-en">Message the admin</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Головні кнопки: гра -->
+            <section class="play-group glass animate-on-load delay-2">
+                <a href="https://t.me/AnyWorldBot" class="btn-play" target="_blank" rel="noopener">
+                    <span class="play-icon tg"><i class="fab fa-telegram"></i></span>
+                    <span class="btn-text">
+                        <span class="btn-title lang-uk">Грати в Telegram</span>
+                        <span class="btn-title lang-en">Play in Telegram</span>
+                        <span class="btn-subtitle lang-uk">Запустити бота @AnyWorldBot</span>
+                        <span class="btn-subtitle lang-en">Launch the @AnyWorldBot bot</span>
+                    </span>
                     <i class="fas fa-chevron-right arrow-icon"></i>
                 </a>
-            </div>
 
-            <!-- Список посилань і проєктів (Об'єднані в один блок ТГ) -->
-            <div class="links-section tilt animate-on-load delay-4">
-                <a href="https://t.me/+80vA76i5EQ5kMDEy" class="link-card" target="_blank">
-                    <div class="card-icon tg-group">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <div class="card-content">
-                        <h4 class="lang-uk">Моя Група (Спільнота)</h4>
-                        <h4 class="lang-en">My Community Group</h4>
-                        <p class="lang-uk">Обговорення, деталі та виживання разом</p>
-                        <p class="lang-en">Discussions, details, and surviving together</p>
-                    </div>
+                <!-- TODO: заміни href нижче на посилання веб-версії, коли вона буде готова -->
+                <a href="https://t.me/AnyWorldBot" class="btn-play" target="_blank" rel="noopener">
+                    <span class="play-icon web"><i class="fas fa-globe"></i></span>
+                    <span class="btn-text">
+                        <span class="btn-title lang-uk">Грати у веб</span>
+                        <span class="btn-title lang-en">Play on the web</span>
+                        <span class="btn-subtitle lang-uk">Та сама гра прямо в браузері</span>
+                        <span class="btn-subtitle lang-en">The same game right in your browser</span>
+                    </span>
+                    <i class="fas fa-chevron-right arrow-icon"></i>
+                </a>
+            </section>
+
+            <!-- Посилання -->
+            <section class="links-section glass animate-on-load delay-3">
+                <a href="https://t.me/anyworldmultiverse" class="link-card" target="_blank" rel="noopener">
+                    <span class="card-icon tg-group"><i class="fas fa-users"></i></span>
+                    <span class="card-content">
+                        <span class="card-title lang-uk">Спільнота Multiverse</span>
+                        <span class="card-title lang-en">Multiverse Community</span>
+                        <span class="card-sub lang-uk">Новини, гайди та обговорення гри</span>
+                        <span class="card-sub lang-en">News, guides and game discussions</span>
+                    </span>
                     <i class="fas fa-chevron-right external-icon"></i>
                 </a>
 
-                <a href="https://t.me/+80vA76i5EQ5kMDEy" class="link-card" target="_blank">
-                    <div class="card-icon project-1">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <div class="card-content">
-                        <h4 class="lang-uk">Мої сайти та боти</h4>
-                        <h4 class="lang-en">My Websites & Bots</h4>
-                        <p class="lang-uk">Кейси з розробки для Telegram та Web</p>
-                        <p class="lang-en">Development cases for Telegram and Web</p>
-                    </div>
+                <a href="https://t.me/multiverseadministrtor" class="link-card" target="_blank" rel="noopener">
+                    <span class="card-icon tg-admin"><i class="fas fa-user-shield"></i></span>
+                    <span class="card-content">
+                        <span class="card-title lang-uk">Звʼязок з адміністрацією</span>
+                        <span class="card-title lang-en">Contact the admin</span>
+                        <span class="card-sub">@multiverseadministrtor</span>
+                    </span>
                     <i class="fas fa-chevron-right external-icon"></i>
                 </a>
+            </section>
 
-                <a href="https://t.me/+y_oaQc5ft7hkZDcy" class="link-card" target="_blank">
-                    <div class="card-icon project-2">
-                        <i class="fas fa-palette"></i>
-                    </div>
-                    <div class="card-content">
-                        <h4 class="lang-uk">Художнє портфоліо</h4>
-                        <h4 class="lang-en">Art Portfolio</h4>
-                        <p class="lang-uk">Мої малюнки та арти, бо я ще й художник</p>
-                        <p class="lang-en">My drawings and art, because I'm also an artist</p>
-                    </div>
-                    <i class="fas fa-chevron-right external-icon"></i>
-                </a>
-            </div>
+            <footer class="footer animate-on-load delay-4">
+                <span class="lang-uk">The Multiverse — нескінченні світи, одна платформа</span>
+                <span class="lang-en">The Multiverse — infinite worlds, one platform</span>
+            </footer>
         </main>
     </div>
 

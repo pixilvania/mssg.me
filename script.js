@@ -1,9 +1,11 @@
-// 1. Анімація частинок (Попіл у повітрі)
+// ============================================================
+// 1. Зоряний пил / частинки мультивсесвіту
+// ============================================================
 const canvas = document.getElementById('ash-canvas');
 const ctx = canvas.getContext('2d');
 
 let width, height;
-let mouse = { x: null, y: null, radius: window.innerWidth < 768 ? 60 : 100 };
+let mouse = { x: null, y: null, radius: window.innerWidth < 768 ? 70 : 110 };
 
 window.addEventListener('mousemove', (e) => {
     mouse.x = e.x;
@@ -13,7 +15,7 @@ window.addEventListener('mousemove', (e) => {
 window.addEventListener('touchmove', (e) => {
     mouse.x = e.touches[0].clientX;
     mouse.y = e.touches[0].clientY;
-});
+}, { passive: true });
 
 window.addEventListener('mouseout', () => {
     mouse.x = undefined;
@@ -26,65 +28,68 @@ window.addEventListener('touchend', () => {
 });
 
 function resizeCanvas() {
-    // Використовуємо clientWidth/Height, бо CSS розтягує canvas за safe area
     width = canvas.width = canvas.clientWidth || window.innerWidth;
     height = canvas.height = canvas.clientHeight || window.innerHeight;
-    mouse.radius = window.innerWidth < 768 ? 60 : 100;
+    mouse.radius = window.innerWidth < 768 ? 70 : 110;
 }
 
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
+// Кольори пилу підібрані під арт: біле, бузкове, бірюзове, рожеве
+const DUST_COLORS = [
+    [255, 255, 255],
+    [186, 150, 255],
+    [110, 232, 220],
+    [255, 140, 200]
+];
 
 const particlesArray = [];
-// Кількість пилинок
-const numberOfParticles = window.innerWidth < 768 ? 30 : 60;
+const numberOfParticles = window.innerWidth < 768 ? 45 : 85;
 
 class Particle {
     constructor() {
+        this.reset(true);
+    }
+    reset(randomY) {
         this.x = Math.random() * width;
-        this.y = Math.random() * height;
-        this.size = Math.random() * 2 + 0.5;
-        this.baseX = this.x;
-        this.baseY = this.y;
-        this.density = (Math.random() * 30) + 1;
-        this.speedX = Math.random() * 1 - 0.5;
-        this.speedY = Math.random() * 1 + 0.5; // Падають або летять вверх повільно
-        this.opacity = Math.random() * 0.3 + 0.1;
+        this.y = randomY ? Math.random() * height : height + 10;
+        this.size = Math.random() * 1.6 + 0.4;
+        this.density = (Math.random() * 26) + 4;
+        this.speedX = Math.random() * 0.5 - 0.25;
+        this.speedY = Math.random() * 0.45 + 0.12;
+        this.opacity = Math.random() * 0.55 + 0.15;
+        this.color = DUST_COLORS[Math.floor(Math.random() * DUST_COLORS.length)];
+        // Мерехтіння зірок
+        this.twinkleSpeed = Math.random() * 0.02 + 0.005;
+        this.twinklePhase = Math.random() * Math.PI * 2;
     }
     update() {
-        // Базовий рух
         this.x += this.speedX;
         this.y -= this.speedY;
+        this.twinklePhase += this.twinkleSpeed;
 
-        if (this.y < 0 - this.size) {
-            this.y = height + this.size;
-            this.x = Math.random() * width;
-        }
-        if (this.x < 0 - this.size || this.x > width + this.size) {
+        if (this.y < -this.size) this.reset(false);
+        if (this.x < -this.size || this.x > width + this.size) {
             this.x = Math.random() * width;
         }
 
-        // Інтерактивність з мишкою/пальцем
+        // Частинки розлітаються від курсора / пальця
         if (mouse.x && mouse.y) {
-            let dx = mouse.x - this.x;
-            let dy = mouse.y - this.y;
-            let distance = Math.sqrt(dx * dx + dy * dy);
-            let forceDirectionX = dx / distance;
-            let forceDirectionY = dy / distance;
-            let maxDistance = mouse.radius;
-            let force = (maxDistance - distance) / maxDistance;
-            let directionX = forceDirectionX * force * this.density;
-            let directionY = forceDirectionY * force * this.density;
-
-            if (distance < mouse.radius) {
-                this.x -= directionX;
-                this.y -= directionY;
+            const dx = mouse.x - this.x;
+            const dy = mouse.y - this.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            if (distance < mouse.radius && distance > 0) {
+                const force = (mouse.radius - distance) / mouse.radius;
+                this.x -= (dx / distance) * force * this.density;
+                this.y -= (dy / distance) * force * this.density;
             }
         }
     }
     draw() {
-        ctx.fillStyle = `rgba(180, 160, 150, ${this.opacity})`;
+        const twinkle = 0.65 + Math.sin(this.twinklePhase) * 0.35;
+        const [r, g, b] = this.color;
+        ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${this.opacity * twinkle})`;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
@@ -106,68 +111,66 @@ function animate() {
     requestAnimationFrame(animate);
 }
 
-init();
-animate();
-
-// 2. 3D Tilt Ефект
-if (window.matchMedia("(hover: hover)").matches) {
-    const tiltElements = document.querySelectorAll('.tilt');
-
-    tiltElements.forEach(element => {
-        element.addEventListener('mousemove', e => {
-            const rect = element.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-
-            const rotateX = ((y - centerY) / centerY) * -5;
-            const rotateY = ((x - centerX) / centerX) * 5;
-
-            element.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-        });
-
-        element.addEventListener('mouseleave', () => {
-            element.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-            element.style.transition = 'transform 0.5s ease-out';
-            setTimeout(() => {
-                element.style.transition = '';
-            }, 500);
-        });
-    });
+if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    init();
+    animate();
 }
 
-// 3. Перемикач мов і Хаптік (Вібрація)
+// ============================================================
+// 2. Делікатний 3D-нахил (тільки для мишки)
+// ============================================================
+if (window.matchMedia('(hover: hover)').matches) {
+    // Даємо анімації появи відпрацювати, щоб inline-transform її не перебив
+    window.setTimeout(() => {
+        document.querySelectorAll('.tilt').forEach(element => {
+            element.addEventListener('mousemove', e => {
+                const rect = element.getBoundingClientRect();
+                const rotateX = ((e.clientY - rect.top - rect.height / 2) / (rect.height / 2)) * -3.5;
+                const rotateY = ((e.clientX - rect.left - rect.width / 2) / (rect.width / 2)) * 3.5;
+                element.style.transition = 'none';
+                element.style.transform =
+                    `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.012, 1.012, 1.012)`;
+            });
+
+            element.addEventListener('mouseleave', () => {
+                element.style.transition = 'transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)';
+                element.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+            });
+        });
+    }, 1400);
+}
+
+// ============================================================
+// 3. Перемикач мов і хаптик
+// ============================================================
 document.addEventListener('DOMContentLoaded', () => {
     const langBtns = document.querySelectorAll('.lang-btn');
     const body = document.body;
 
+    // Памʼятаємо вибір мови між візитами
+    const savedLang = (() => {
+        try { return localStorage.getItem('mv-lang'); } catch (e) { return null; }
+    })();
+
+    function setLang(lang) {
+        body.setAttribute('data-lang', lang);
+        langBtns.forEach(b => b.classList.toggle('active', b.getAttribute('data-lang-target') === lang));
+        try { localStorage.setItem('mv-lang', lang); } catch (e) { /* приватний режим */ }
+    }
+
+    if (savedLang === 'uk' || savedLang === 'en') setLang(savedLang);
+
     langBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            // Вібрація при перемиканні мови (iOS/Android)
             if (navigator.vibrate) navigator.vibrate(30);
-
-            // Зняти активний клас з усіх
-            langBtns.forEach(b => b.classList.remove('active'));
-            // Додати активний клас натиснутій кнопці
-            btn.classList.add('active');
-
-            // Змінити data-lang атрибут на body
-            const targetLang = btn.getAttribute('data-lang-target');
-            body.setAttribute('data-lang', targetLang);
+            setLang(btn.getAttribute('data-lang-target'));
         });
     });
 
-    // Додаємо вібрацію на всі кнопки і посилання
-    const interactiveElements = document.querySelectorAll('a, button');
-    interactiveElements.forEach(el => {
+    // Вібрація на всіх кнопках і посиланнях (Android; в iOS Apple блокує API)
+    document.querySelectorAll('a, button').forEach(el => {
         el.addEventListener('click', () => {
-            if (navigator.vibrate) {
-                // Відчутна віддача на Андроїді. На iOS (iPhone) API вібрації заблоковано самою Apple.
-                navigator.vibrate(80);
-            }
+            if (navigator.vibrate) navigator.vibrate(80);
         });
     });
 });
-
