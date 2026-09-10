@@ -10,8 +10,7 @@
     <meta name="theme-color" content="#0a0a14">
     <meta name="color-scheme" content="dark">
     <title>The Multiverse | @AnyWorldBot</title>
-    <meta name="description"
-        content="Infinite worlds, one platform. Dive into a multi-universe text RPG on Telegram.">
+    <meta name="description" content="Infinite worlds, one platform. Dive into a multi-universe text RPG on Telegram.">
 
     <!-- Open Graph Meta Tags (для прев'ю в Telegram) -->
     <meta property="og:title" content="The Multiverse">
@@ -42,7 +41,7 @@
         <span class="blob blob-magenta"></span>
     </div>
 
-    <!-- Canvas для зоряного пилу -->
+    <!-- Canvas для зоряного пилу і метеорів -->
     <canvas id="ash-canvas" aria-hidden="true"></canvas>
 
     <div class="page">
@@ -63,93 +62,107 @@
 
         <main class="container">
             <!-- Головна картка профілю -->
-            <section class="profile-card glass tilt animate-on-load delay-1">
-                <div class="profile-header">
-                    <div class="avatar-container">
-                        <img src="avatar.jpg" alt="The Multiverse" class="avatar" draggable="false">
-                    </div>
-                    <div class="profile-info">
-                        <h1 class="name">The Multiverse</h1>
-                        <p class="nickname">@AnyWorldBot</p>
-                    </div>
-                </div>
+            <div class="animate-on-load delay-1">
+                <div class="floater floater-1">
+                    <section class="profile-card glass glass-hero tilt">
+                        <div class="profile-header">
+                            <div class="avatar-container">
+                                <img src="avatar.jpg" alt="The Multiverse" class="avatar" draggable="false">
+                            </div>
+                            <div class="profile-info">
+                                <h1 class="name">The Multiverse</h1>
+                                <p class="nickname">@AnyWorldBot</p>
+                            </div>
+                        </div>
 
-                <p class="bio lang-en">
-                    Infinite worlds, one platform. Dive into a multi-universe text RPG
-                    where every reality plays by its own rules.
-                    <span class="bio-accent">Pick a world, build a hero, write your own story.</span>
-                </p>
-                <p class="bio lang-uk">
-                    Нескінченні світи — одна платформа. Пірнай у текстову RPG,
-                    де кожен всесвіт живе за своїми правилами.
-                    <span class="bio-accent">Обирай світ, створюй героя, пиши свою історію.</span>
-                </p>
+                        <p class="bio lang-en">
+                            Infinite worlds, one platform. Dive into a multi-universe text RPG
+                            where every reality plays by its own rules.
+                            <span class="bio-accent">Pick a world, build a hero, write your own story.</span>
+                        </p>
+                        <p class="bio lang-uk">
+                            Нескінченні світи — одна платформа. Пірнай у текстову RPG,
+                            де кожен всесвіт живе за своїми правилами.
+                            <span class="bio-accent">Обирай світ, створюй героя, пиши свою історію.</span>
+                        </p>
 
-                <div class="chips">
-                    <span class="chip"><i class="fas fa-dice-d20"></i><span class="lang-en">Text RPG</span><span
-                            class="lang-uk">Текстова RPG</span></span>
-                    <span class="chip"><i class="fas fa-infinity"></i><span class="lang-en">Multiverse</span><span
-                            class="lang-uk">Мультивсесвіт</span></span>
-                </div>
+                        <div class="chips">
+                            <span class="chip"><i class="fas fa-dice-d20"></i><span class="lang-en">Text RPG</span><span
+                                    class="lang-uk">Текстова RPG</span></span>
+                            <span class="chip"><i class="fas fa-infinity"></i><span
+                                    class="lang-en">Multiverse</span><span
+                                    class="lang-uk">Мультивсесвіт</span></span>
+                        </div>
 
-                <div class="profile-actions">
-                    <a href="https://t.me/multiverseadministrtor" class="btn-small" target="_blank" rel="noopener">
-                        <i class="fas fa-paper-plane"></i>
-                        <span class="lang-en">Message the admin</span>
-                        <span class="lang-uk">Написати адміну</span>
-                    </a>
+                        <div class="profile-actions">
+                            <a href="https://t.me/multiverseadministrtor" class="btn-small" target="_blank"
+                                rel="noopener">
+                                <i class="fab fa-telegram"></i>
+                                <span class="lang-en">Message the admin</span>
+                                <span class="lang-uk">Написати адміну</span>
+                            </a>
+                        </div>
+                    </section>
                 </div>
-            </section>
+            </div>
 
             <!-- Головні кнопки: гра -->
-            <section class="play-group glass tilt animate-on-load delay-2">
-                <a href="https://t.me/AnyWorldBot" class="btn-play" target="_blank" rel="noopener">
-                    <span class="play-icon tg"><i class="fab fa-telegram"></i></span>
-                    <span class="btn-text">
-                        <span class="btn-title lang-en">Play in Telegram</span>
-                        <span class="btn-title lang-uk">Грати в Telegram</span>
-                        <span class="btn-subtitle lang-en">Launch the @AnyWorldBot bot</span>
-                        <span class="btn-subtitle lang-uk">Запустити бота @AnyWorldBot</span>
-                    </span>
-                    <i class="fas fa-chevron-right arrow-icon"></i>
-                </a>
+            <div class="animate-on-load delay-2">
+                <div class="floater floater-2">
+                    <section class="play-group glass tilt">
+                        <a href="https://t.me/AnyWorldBot" class="btn-play" target="_blank" rel="noopener">
+                            <span class="row-icon icon-tg"><i class="fab fa-telegram"></i></span>
+                            <span class="btn-text">
+                                <span class="btn-title lang-en">Play in Telegram</span>
+                                <span class="btn-title lang-uk">Грати в Telegram</span>
+                                <span class="btn-subtitle lang-en">Launch the @AnyWorldBot bot</span>
+                                <span class="btn-subtitle lang-uk">Запустити бота @AnyWorldBot</span>
+                            </span>
+                            <i class="fas fa-chevron-right arrow-icon"></i>
+                        </a>
 
-                <!-- TODO: заміни href нижче на посилання веб-версії, коли вона буде готова -->
-                <a href="https://t.me/AnyWorldBot" class="btn-play" target="_blank" rel="noopener">
-                    <span class="play-icon web"><i class="fas fa-globe"></i></span>
-                    <span class="btn-text">
-                        <span class="btn-title lang-en">Play on the web</span>
-                        <span class="btn-title lang-uk">Грати у веб</span>
-                        <span class="btn-subtitle lang-en">The same game right in your browser</span>
-                        <span class="btn-subtitle lang-uk">Та сама гра прямо в браузері</span>
-                    </span>
-                    <i class="fas fa-chevron-right arrow-icon"></i>
-                </a>
-            </section>
+                        <!-- TODO: заміни href нижче на посилання веб-версії, коли вона буде готова -->
+                        <a href="https://t.me/AnyWorldBot" class="btn-play" target="_blank" rel="noopener">
+                            <span class="row-icon icon-web"><i class="fas fa-globe"></i></span>
+                            <span class="btn-text">
+                                <span class="btn-title lang-en">Play on the web</span>
+                                <span class="btn-title lang-uk">Грати у веб</span>
+                                <span class="btn-subtitle lang-en">The same game right in your browser</span>
+                                <span class="btn-subtitle lang-uk">Та сама гра прямо в браузері</span>
+                            </span>
+                            <i class="fas fa-chevron-right arrow-icon"></i>
+                        </a>
+                    </section>
+                </div>
+            </div>
 
             <!-- Посилання -->
-            <section class="links-section glass tilt animate-on-load delay-3">
-                <a href="https://t.me/anyworldmultiverse" class="link-card" target="_blank" rel="noopener">
-                    <span class="card-icon tg-group"><i class="fas fa-users"></i></span>
-                    <span class="card-content">
-                        <span class="card-title lang-en">Multiverse Community</span>
-                        <span class="card-title lang-uk">Спільнота Multiverse</span>
-                        <span class="card-sub lang-en">News, guides and game discussions</span>
-                        <span class="card-sub lang-uk">Новини, гайди та обговорення гри</span>
-                    </span>
-                    <i class="fas fa-chevron-right external-icon"></i>
-                </a>
+            <div class="animate-on-load delay-3">
+                <div class="floater floater-3">
+                    <section class="links-section glass tilt">
+                        <a href="https://t.me/anyworldmultiverse" class="link-card" target="_blank" rel="noopener">
+                            <span class="row-icon icon-group"><i class="fas fa-users"></i></span>
+                            <span class="card-content">
+                                <span class="card-title lang-en">Multiverse Community</span>
+                                <span class="card-title lang-uk">Спільнота Multiverse</span>
+                                <span class="card-sub lang-en">News, guides and game discussions</span>
+                                <span class="card-sub lang-uk">Новини, гайди та обговорення гри</span>
+                            </span>
+                            <i class="fas fa-chevron-right external-icon"></i>
+                        </a>
 
-                <a href="https://t.me/multiverseadministrtor" class="link-card" target="_blank" rel="noopener">
-                    <span class="card-icon tg-admin"><i class="fas fa-user-shield"></i></span>
-                    <span class="card-content">
-                        <span class="card-title lang-en">Contact the admin</span>
-                        <span class="card-title lang-uk">Звʼязок з адміністрацією</span>
-                        <span class="card-sub">@multiverseadministrtor</span>
-                    </span>
-                    <i class="fas fa-chevron-right external-icon"></i>
-                </a>
-            </section>
+                        <a href="https://t.me/multiverseadministrtor" class="link-card" target="_blank" rel="noopener">
+                            <span class="row-icon icon-admin"><i class="fas fa-user-shield"></i></span>
+                            <span class="card-content">
+                                <span class="card-title lang-en">Contact the admin</span>
+                                <span class="card-title lang-uk">Звʼязок з адміністрацією</span>
+                                <span class="card-sub">@multiverseadministrtor</span>
+                            </span>
+                            <i class="fas fa-chevron-right external-icon"></i>
+                        </a>
+                    </section>
+                </div>
+            </div>
 
             <footer class="footer animate-on-load delay-4">
                 <span class="lang-en">The Multiverse — infinite worlds, one platform</span>

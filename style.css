@@ -11,7 +11,6 @@
 
     /* Скло — напівпрозоре матове, як панелі в Telegram */
     --glass-bg: rgba(24, 24, 30, 0.52);
-    --glass-bg-hover: rgba(44, 44, 46, 0.62);
     --glass-border: rgba(255, 255, 255, 0.12);
     --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
     --glass-radius: 18px;
@@ -35,26 +34,33 @@
     user-select: text;
 }
 
+/* Сторінка не скролиться — весь контент вміщається в один екран */
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+    overscroll-behavior: none;
+}
+
 html {
     background-color: var(--bg-deep);
 }
 
 body {
-    min-height: 100vh;
     background-color: var(--bg-deep);
     /* Глибокий космічний градієнт замість фонової картинки */
     background-image:
         radial-gradient(120% 70% at 50% -10%, rgba(94, 60, 180, 0.38) 0%, rgba(94, 60, 180, 0) 60%),
         radial-gradient(90% 60% at 100% 8%, rgba(255, 95, 168, 0.16) 0%, rgba(255, 95, 168, 0) 55%),
         linear-gradient(180deg, #0b0a18 0%, #08080f 45%, #050509 100%);
-    background-attachment: fixed;
     color: var(--text-main);
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
-    overflow-x: hidden;
     position: relative;
     -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
     -webkit-font-smoothing: antialiased;
-    touch-action: pan-y;
+    /* Жодних жестів прокрутки чи зуму */
+    touch-action: none;
 }
 
 a {
@@ -64,11 +70,11 @@ a {
 }
 
 /* Логіка перемикання мов */
-body[data-lang="uk"] .lang-en {
+body[data-lang="en"] .lang-uk {
     display: none !important;
 }
 
-body[data-lang="en"] .lang-uk {
+body[data-lang="uk"] .lang-en {
     display: none !important;
 }
 
@@ -147,6 +153,8 @@ body[data-lang="en"] .lang-uk {
 .page {
     position: relative;
     z-index: 2;
+    height: 100%;
+    overflow: hidden;
 }
 
 /* Ледь помітне зерно поверх усього */
@@ -167,21 +175,32 @@ body[data-lang="en"] .lang-uk {
 .glass {
     position: relative;
     background: var(--glass-bg);
-    /* Матове скло: сильний блюр + насиченість, крізь панель видно фон */
     backdrop-filter: blur(34px) saturate(180%);
     -webkit-backdrop-filter: blur(34px) saturate(180%);
     border: 0.5px solid var(--glass-border);
     box-shadow:
         var(--glass-shadow),
-        /* делікатна верхня фаска — матова, без глянцю */
         inset 0 0.5px 0 rgba(255, 255, 255, 0.10);
     border-radius: var(--glass-radius);
-    transition: transform 0.2s ease, background 0.2s ease;
 }
 
-/* Верхня панелька (перемикач мови) — теж скляна */
+/* Головна панель — прозоріша й помітно виділена сяйвом */
+.glass-hero {
+    --glass-radius: 22px;
+    background: rgba(22, 22, 30, 0.34);
+    backdrop-filter: blur(40px) saturate(190%);
+    -webkit-backdrop-filter: blur(40px) saturate(190%);
+    border-color: rgba(255, 255, 255, 0.18);
+    box-shadow:
+        0 24px 60px -20px rgba(95, 45, 190, 0.6),
+        0 8px 32px rgba(0, 0, 0, 0.45),
+        inset 0 0.5px 0 rgba(255, 255, 255, 0.2),
+        inset 0 0 40px rgba(163, 124, 255, 0.06);
+}
+
+/* Верхня панелька (перемикач мови) */
 .glass-sm {
-    --glass-radius: 10px;
+    --glass-radius: 12px;
     background: rgba(24, 24, 30, 0.42);
     backdrop-filter: blur(28px) saturate(180%);
     -webkit-backdrop-filter: blur(28px) saturate(180%);
@@ -193,7 +212,7 @@ body[data-lang="en"] .lang-uk {
 .banner {
     position: relative;
     width: 100%;
-    height: 260px;
+    height: 215px;
     overflow: hidden;
 }
 
@@ -247,7 +266,7 @@ body[data-lang="en"] .lang-uk {
 
 .topbar {
     position: absolute;
-    top: calc(env(safe-area-inset-top) + 14px);
+    top: calc(env(safe-area-inset-top) + 30px);
     right: 16px;
     z-index: 3;
 }
@@ -256,7 +275,7 @@ body[data-lang="en"] .lang-uk {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 6px 12px;
+    padding: 7px 13px;
 }
 
 .lang-btn {
@@ -287,27 +306,61 @@ body[data-lang="en"] .lang-uk {
     max-width: 480px;
     margin: 0 auto;
     /* Картка наїжджає на банер, як у Reddit */
-    margin-top: -82px;
-    padding: 0 16px calc(48px + env(safe-area-inset-bottom)) 16px;
+    margin-top: -70px;
+    padding: 0 16px calc(14px + env(safe-area-inset-bottom)) 16px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
+}
+
+/* ============================================================
+   ПЛАВАННЯ ПАНЕЛЕЙ
+   Окрема обгортка, щоб не конфліктувати з появою (зовні)
+   і 3D-нахилом (всередині)
+   ============================================================ */
+.floater {
+    animation: floatY 7s ease-in-out infinite alternate;
+    will-change: transform;
+}
+
+.floater-1 {
+    animation-duration: 7s;
+}
+
+.floater-2 {
+    animation-duration: 8.6s;
+    animation-delay: -2.4s;
+}
+
+.floater-3 {
+    animation-duration: 9.8s;
+    animation-delay: -5.1s;
+}
+
+@keyframes floatY {
+    from {
+        transform: translate3d(0, 3px, 0);
+    }
+
+    to {
+        transform: translate3d(0, -6px, 0);
+    }
 }
 
 /* ============================================================
    ПРОФІЛЬ
    ============================================================ */
 .profile-card {
-    padding: 20px;
+    padding: 16px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
 }
 
 .profile-header {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 15px;
 }
 
 .avatar-container {
@@ -367,16 +420,11 @@ body[data-lang="en"] .lang-uk {
     position: relative;
     z-index: 1;
     display: block;
-    width: 72px;
-    height: 72px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
     object-fit: cover;
     background: #0b0b16;
-    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.profile-card:hover .avatar {
-    transform: scale(1.05);
 }
 
 .profile-info {
@@ -395,7 +443,6 @@ body[data-lang="en"] .lang-uk {
 .nickname {
     font-size: 13px;
     color: var(--accent-blue);
-    margin-bottom: 6px;
 }
 
 .bio {
@@ -407,9 +454,9 @@ body[data-lang="en"] .lang-uk {
 
 .bio-accent {
     display: block;
-    margin-top: 6px;
+    margin-top: 5px;
     color: var(--text-muted);
-    font-size: 13.5px;
+    font-size: 13px;
 }
 
 /* Чіпи-теги */
@@ -437,6 +484,7 @@ body[data-lang="en"] .lang-uk {
     color: var(--accent-blue);
 }
 
+/* Знак нескінченності повільно світиться */
 .chip:nth-child(2) i {
     animation: infinityGlow 4.5s ease-in-out infinite;
 }
@@ -455,13 +503,17 @@ body[data-lang="en"] .lang-uk {
     }
 }
 
-/* Кнопка «написати» */
+/* ============================================================
+   КНОПКА «НАПИСАТИ»
+   ============================================================ */
 .profile-actions {
     display: flex;
-    margin-top: 4px;
+    margin-top: 2px;
 }
 
 .btn-small {
+    position: relative;
+    overflow: hidden;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -474,40 +526,43 @@ body[data-lang="en"] .lang-uk {
     color: #fff;
     background: rgba(255, 255, 255, 0.12);
     border: 0.5px solid rgba(255, 255, 255, 0.10);
-    transition: background 0.2s;
 }
 
 .btn-small i {
-    font-size: 13px;
+    font-size: 14px;
     color: var(--accent-blue);
-}
-
-.btn-small:hover {
-    background: rgba(255, 255, 255, 0.18);
+    animation: tgPulse 3.5s ease-in-out infinite;
 }
 
 /* ============================================================
-   КНОПКИ ГРИ
+   РЯДКИ-КНОПКИ (гра + посилання)
    ============================================================ */
-.play-group {
+.play-group,
+.links-section {
     display: flex;
     flex-direction: column;
     overflow: hidden;
 }
 
-.btn-play {
+.btn-play,
+.link-card {
     position: relative;
     overflow: hidden;
     color: #fff;
     display: flex;
     align-items: center;
     gap: 14px;
-    padding: 16px 20px;
-    transition: background 0.2s;
+    padding: 14px 16px;
+}
+
+.btn-play+.btn-play,
+.link-card+.link-card {
+    border-top: 0.5px solid var(--hairline);
 }
 
 /* Промінь світла, що періодично пробігає по кнопці */
-.btn-play::before {
+.btn-play::before,
+.btn-small::before {
     content: "";
     position: absolute;
     top: 0;
@@ -517,7 +572,7 @@ body[data-lang="en"] .lang-uk {
     pointer-events: none;
     background: linear-gradient(100deg,
             rgba(255, 255, 255, 0) 0%,
-            rgba(255, 255, 255, 0.09) 50%,
+            rgba(255, 255, 255, 0.10) 50%,
             rgba(255, 255, 255, 0) 100%);
     transform: translateX(-160%);
     animation: sheen 7s ease-in-out infinite;
@@ -525,6 +580,11 @@ body[data-lang="en"] .lang-uk {
 
 .btn-play:nth-child(2)::before {
     animation-delay: 3.5s;
+}
+
+.btn-small::before {
+    animation-duration: 8s;
+    animation-delay: 1.8s;
 }
 
 @keyframes sheen {
@@ -540,46 +600,59 @@ body[data-lang="en"] .lang-uk {
     }
 }
 
-.btn-play+.btn-play {
-    border-top: 0.5px solid var(--hairline);
-}
-
-.btn-play:hover {
-    background: rgba(255, 255, 255, 0.07);
-}
-
-.play-icon {
+/* ============================================================
+   ПІКТОГРАМИ — однакові в усіх рядках (Telegram-стиль)
+   ============================================================ */
+.row-icon {
     flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 26px;
-    font-size: 24px;
+    font-size: 15px;
+    color: #fff;
+    box-shadow: inset 0 0.5px 0 rgba(255, 255, 255, 0.3);
 }
 
-.play-icon.tg {
-    color: var(--accent-blue);
+.icon-tg {
+    background: #2AABEE;
 }
 
-.play-icon.web {
-    color: #AF52DE;
+.icon-web {
+    background: #AF52DE;
 }
 
-.play-icon,
-.card-icon {
-    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.25s ease;
+.icon-group {
+    background: #34C759;
 }
 
-.btn-play:hover .play-icon,
-.link-card:hover .card-icon {
-    transform: scale(1.12);
-    filter: brightness(1.25);
+.icon-admin {
+    background: #FF375F;
 }
 
-/* Глобус повільно обертається, як справжня планета */
-.play-icon.web i {
+/* Телеграм «дихає», глобус обертається */
+.icon-tg i {
+    display: block;
+    animation: tgPulse 3.5s ease-in-out infinite;
+}
+
+.icon-web i {
     display: block;
     animation: globeSpin 11s linear infinite;
+}
+
+@keyframes tgPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.12);
+    }
 }
 
 @keyframes globeSpin {
@@ -588,103 +661,7 @@ body[data-lang="en"] .lang-uk {
     }
 }
 
-/* Іконка Telegram легенько «дихає» */
-.play-icon.tg i {
-    display: block;
-    animation: tgPulse 3.5s ease-in-out infinite;
-}
-
-@keyframes tgPulse {
-
-    0%,
-    100% {
-        transform: scale(1);
-        filter: drop-shadow(0 0 0 rgba(42, 171, 238, 0));
-    }
-
-    50% {
-        transform: scale(1.08);
-        filter: drop-shadow(0 0 8px rgba(42, 171, 238, 0.65));
-    }
-}
-
-.btn-text {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    flex: 1;
-    min-width: 0;
-}
-
-.btn-title {
-    font-size: 16px;
-    font-weight: 500;
-}
-
-.btn-subtitle {
-    font-size: 13px;
-    color: var(--text-muted);
-    line-height: 1.3;
-}
-
-.arrow-icon,
-.external-icon {
-    flex-shrink: 0;
-    color: var(--text-muted);
-    font-size: 14px;
-}
-
-.btn-play:hover .arrow-icon,
-.link-card:hover .external-icon {
-    color: rgba(255, 255, 255, 0.7);
-}
-
-/* ============================================================
-   ПОСИЛАННЯ
-   ============================================================ */
-.links-section {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-}
-
-.link-card {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 14px 16px;
-    transition: background 0.2s;
-}
-
-.link-card+.link-card {
-    border-top: 0.5px solid var(--hairline);
-}
-
-.link-card:hover {
-    background: rgba(255, 255, 255, 0.07);
-}
-
-.card-icon {
-    flex-shrink: 0;
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    color: #fff;
-}
-
-/* Telegram-кольори іконок */
-.tg-group {
-    background: #34C759;
-}
-
-.tg-admin {
-    background: #AF52DE;
-}
-
+.btn-text,
 .card-content {
     display: flex;
     flex-direction: column;
@@ -693,16 +670,48 @@ body[data-lang="en"] .lang-uk {
     min-width: 0;
 }
 
+.btn-title,
 .card-title {
-    font-size: 15px;
+    font-size: 15.5px;
     font-weight: 500;
     color: #fff;
 }
 
+.btn-subtitle,
 .card-sub {
-    font-size: 13px;
+    font-size: 12.5px;
     color: var(--text-muted);
-    line-height: 1.2;
+    line-height: 1.25;
+}
+
+/* Стрілка легенько підштовхується вправо */
+.arrow-icon,
+.external-icon {
+    flex-shrink: 0;
+    color: var(--text-muted);
+    font-size: 13px;
+    animation: nudge 3.6s ease-in-out infinite;
+}
+
+.btn-play:nth-child(2) .arrow-icon {
+    animation-delay: 0.5s;
+}
+
+.link-card:nth-child(2) .external-icon {
+    animation-delay: 1.1s;
+}
+
+@keyframes nudge {
+
+    0%,
+    82%,
+    100% {
+        transform: translateX(0);
+    }
+
+    90% {
+        transform: translateX(3px);
+    }
 }
 
 /* ============================================================
@@ -710,18 +719,17 @@ body[data-lang="en"] .lang-uk {
    ============================================================ */
 .footer {
     text-align: center;
-    font-size: 12px;
+    font-size: 11.5px;
     color: var(--text-dim);
-    padding: 10px 8px 0;
+    padding: 4px 8px 0;
     letter-spacing: 0.2px;
 }
 
 /* ============================================================
-   АНІМАЦІЇ
+   ПОЯВА
    ============================================================ */
 .animate-on-load {
     opacity: 0;
-    transform: translateY(40px) scale(0.98);
     animation: fadeUp 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
@@ -755,26 +763,58 @@ body[data-lang="en"] .lang-uk {
     animation-delay: 0.4s;
 }
 
-/* Анімація натискання (як було) */
-.link-card:active,
-.btn-play:active,
-.btn-small:active,
-.lang-btn:active {
-    transform: scale(0.97);
-    filter: brightness(1.2);
-    transition: transform 0.1s ease-out, filter 0.1s ease-out;
+/* ============================================================
+   ВЗАЄМОДІЯ
+   Ховер лише там, де є справжня мишка — щоб на дотику
+   не залипала підсвітка під пальцем
+   ============================================================ */
+@media (hover: hover) and (pointer: fine) {
+
+    .btn-play:hover,
+    .link-card:hover {
+        background: rgba(255, 255, 255, 0.06);
+    }
+
+    .btn-small:hover {
+        background: rgba(255, 255, 255, 0.18);
+    }
+
+    .btn-play:hover .row-icon,
+    .link-card:hover .row-icon {
+        transform: scale(1.1);
+    }
+
+    .btn-play:hover .arrow-icon,
+    .link-card:hover .external-icon {
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    .row-icon {
+        transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .btn-play,
+    .link-card,
+    .btn-small {
+        transition: background 0.2s ease;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
 
     .animate-on-load,
     .blob,
+    .floater,
     .banner-img,
     .btn-play::before,
+    .btn-small::before,
     .avatar-container::before,
     .avatar-container::after,
-    .play-icon i,
-    .chip i {
+    .row-icon i,
+    .btn-small i,
+    .chip i,
+    .arrow-icon,
+    .external-icon {
         animation: none !important;
     }
 
@@ -785,29 +825,60 @@ body[data-lang="en"] .lang-uk {
     }
 }
 
-/* Дрібні екрани */
-@media (max-width: 380px) {
+/* ============================================================
+   ЩОБ ВМІЩАЛОСЬ БЕЗ СКРОЛУ НА НИЗЬКИХ ЕКРАНАХ
+   ============================================================ */
+@media (max-height: 750px) {
     .banner {
-        height: 224px;
+        height: 180px;
     }
 
     .container {
-        margin-top: -74px;
+        margin-top: -62px;
+        gap: 10px;
     }
 
     .avatar {
-        width: 68px;
-        height: 68px;
+        width: 62px;
+        height: 62px;
+    }
+
+    .bio {
+        font-size: 13px;
+    }
+
+    .btn-play,
+    .link-card {
+        padding: 12px 16px;
+    }
+}
+
+@media (max-height: 660px) {
+    .banner {
+        height: 150px;
+    }
+
+    .container {
+        margin-top: -54px;
+    }
+
+    .chips,
+    .footer {
+        display: none;
+    }
+
+    .bio-accent {
+        display: none;
     }
 }
 
 /* Десктоп: банер ширший, тож трохи вищий */
-@media (min-width: 700px) {
+@media (min-width: 700px) and (min-height: 800px) {
     .banner {
-        height: 320px;
+        height: 300px;
     }
 
     .container {
-        margin-top: -96px;
+        margin-top: -90px;
     }
 }

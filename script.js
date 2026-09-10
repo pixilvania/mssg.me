@@ -188,22 +188,6 @@ if (!reducedMotion) {
     requestAnimationFrame(animate);
 }
 
-// ============================================================
-// 1b. Паралакс банера — картинка відстає від скролу
-// ============================================================
-if (!reducedMotion) {
-    const banner = document.querySelector('.banner');
-    let ticking = false;
-
-    window.addEventListener('scroll', () => {
-        if (ticking) return;
-        ticking = true;
-        requestAnimationFrame(() => {
-            banner.style.transform = `translate3d(0, ${window.scrollY * 0.32}px, 0)`;
-            ticking = false;
-        });
-    }, { passive: true });
-}
 
 // ============================================================
 // 2. Делікатний 3D-нахил (тільки для мишки)
