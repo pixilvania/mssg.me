@@ -155,6 +155,8 @@ body[data-lang="uk"] .lang-en {
     z-index: 2;
     height: 100%;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Ледь помітне зерно поверх усього */
@@ -200,7 +202,7 @@ body[data-lang="uk"] .lang-en {
 /* Верхня панелька (перемикач мови) */
 .glass-sm {
     --glass-radius: 12px;
-    background: rgba(24, 24, 30, 0.42);
+    background: rgba(20, 20, 26, 0.55);
     backdrop-filter: blur(28px) saturate(180%);
     -webkit-backdrop-filter: blur(28px) saturate(180%);
 }
@@ -311,6 +313,9 @@ body[data-lang="uk"] .lang-en {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    /* Займає весь залишок екрана, щоб футер став на дно */
+    flex: 1;
+    min-height: 0;
 }
 
 /* ============================================================
@@ -576,11 +581,12 @@ body[data-lang="uk"] .lang-en {
     pointer-events: none;
     background: linear-gradient(100deg,
             rgba(255, 255, 255, 0) 0%,
-            rgba(255, 255, 255, 0.10) 50%,
+            rgba(255, 255, 255, 0.07) 50%,
             rgba(255, 255, 255, 0) 100%);
     transform: translateX(-160%);
+    opacity: 0;
     animation: sheen 7s ease-in-out infinite;
-    will-change: transform;
+    will-change: transform, opacity;
 }
 
 .btn-play:nth-child(2)::before {
@@ -595,13 +601,27 @@ body[data-lang="uk"] .lang-en {
 @keyframes sheen {
 
     0%,
-    72%,
-    100% {
+    72% {
         transform: translateX(-160%);
+        opacity: 0;
+    }
+
+    76% {
+        opacity: 1;
+    }
+
+    88% {
+        opacity: 1;
     }
 
     92% {
         transform: translateX(320%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(-160%);
+        opacity: 0;
     }
 }
 
@@ -728,10 +748,12 @@ body[data-lang="uk"] .lang-en {
    ФУТЕР
    ============================================================ */
 .footer {
+    /* Притискаємо до низу — простір під картками більше не мертвий */
+    margin-top: auto;
     text-align: center;
     font-size: 11.5px;
     color: var(--text-dim);
-    padding: 4px 8px 0;
+    padding: 10px 8px 2px;
     letter-spacing: 0.2px;
 }
 
@@ -879,6 +901,17 @@ body[data-lang="uk"] .lang-en {
 
     .bio-accent {
         display: none;
+    }
+}
+
+/* Високі екрани: банер вищий, картки дихають вільніше */
+@media (min-height: 820px) {
+    .banner {
+        height: 250px;
+    }
+
+    .container {
+        gap: 16px;
     }
 }
 
