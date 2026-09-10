@@ -164,8 +164,7 @@ body[data-lang="uk"] .lang-en {
     inset: 0;
     z-index: 9;
     pointer-events: none;
-    opacity: 0.035;
-    mix-blend-mode: overlay;
+    opacity: 0.03;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
@@ -227,6 +226,7 @@ body[data-lang="uk"] .lang-en {
     -webkit-user-drag: none;
     /* Повільний наплив камери на туманність */
     animation: kenBurns 46s ease-in-out infinite alternate;
+    will-change: transform;
     -webkit-mask-image: linear-gradient(180deg,
             #000 0%,
             #000 42%,
@@ -382,6 +382,7 @@ body[data-lang="uk"] .lang-en {
             rgba(163, 124, 255, 0) 360deg);
     filter: blur(5px);
     animation: portalSpin 14s linear infinite;
+    will-change: transform;
     z-index: 0;
 }
 
@@ -393,6 +394,7 @@ body[data-lang="uk"] .lang-en {
     border-radius: 50%;
     box-shadow: 0 0 26px rgba(140, 90, 255, 0.55);
     animation: portalPulse 5s ease-in-out infinite;
+    will-change: transform, opacity;
     z-index: 0;
 }
 
@@ -487,6 +489,7 @@ body[data-lang="uk"] .lang-en {
 /* Знак нескінченності повільно світиться */
 .chip:nth-child(2) i {
     animation: infinityGlow 4.5s ease-in-out infinite;
+    will-change: filter;
 }
 
 @keyframes infinityGlow {
@@ -532,6 +535,7 @@ body[data-lang="uk"] .lang-en {
     font-size: 14px;
     color: var(--accent-blue);
     animation: tgPulse 3.5s ease-in-out infinite;
+    will-change: transform;
 }
 
 /* ============================================================
@@ -576,6 +580,7 @@ body[data-lang="uk"] .lang-en {
             rgba(255, 255, 255, 0) 100%);
     transform: translateX(-160%);
     animation: sheen 7s ease-in-out infinite;
+    will-change: transform;
 }
 
 .btn-play:nth-child(2)::before {
@@ -632,15 +637,19 @@ body[data-lang="uk"] .lang-en {
     background: #FF375F;
 }
 
-/* Телеграм «дихає», глобус обертається */
+/* Телеграм «дихає», глобус обертається.
+   will-change обовʼязковий: у iOS Safari анімація всередині елемента
+   з backdrop-filter інакше може не перемальовуватись. */
 .icon-tg i {
     display: block;
     animation: tgPulse 3.5s ease-in-out infinite;
+    will-change: transform;
 }
 
 .icon-web i {
     display: block;
     animation: globeSpin 11s linear infinite;
+    will-change: transform;
 }
 
 @keyframes tgPulse {
@@ -691,6 +700,7 @@ body[data-lang="uk"] .lang-en {
     color: var(--text-muted);
     font-size: 13px;
     animation: nudge 3.6s ease-in-out infinite;
+    will-change: transform;
 }
 
 .btn-play:nth-child(2) .arrow-icon {
