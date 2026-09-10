@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -10,13 +10,17 @@
     <meta name="theme-color" content="#0a0a14">
     <meta name="color-scheme" content="dark">
     <title>The Multiverse | @AnyWorldBot</title>
+    <meta name="description"
+        content="Infinite worlds, one platform. Dive into a multi-universe text RPG on Telegram.">
 
     <!-- Open Graph Meta Tags (для прев'ю в Telegram) -->
     <meta property="og:title" content="The Multiverse">
     <meta property="og:description"
-        content="Нескінченні світи — одна платформа. Текстова RPG на багато всесвітів у Telegram.">
+        content="Infinite worlds, one platform. Dive into a multi-universe text RPG on Telegram.">
     <meta property="og:image" content="avatar.jpg">
     <meta property="og:type" content="website">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="uk_UA">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,7 +32,9 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body data-lang="uk">
+<!-- Англійська — мова за замовчуванням -->
+
+<body data-lang="en">
     <!-- Кольорові плями, які просвічують крізь скло (щоб blur мав що розмивати) -->
     <div class="ambient" aria-hidden="true">
         <span class="blob blob-violet"></span>
@@ -48,9 +54,9 @@
             <!-- Перемикач мови поверх банера -->
             <div class="topbar">
                 <div class="lang-switcher glass glass-sm">
-                    <button class="lang-btn active" data-lang-target="uk">UK</button>
+                    <button class="lang-btn active" data-lang-target="en">EN</button>
                     <span class="divider">|</span>
-                    <button class="lang-btn" data-lang-target="en">EN</button>
+                    <button class="lang-btn" data-lang-target="uk">UK</button>
                 </div>
             </div>
         </header>
@@ -68,29 +74,29 @@
                     </div>
                 </div>
 
-                <p class="bio lang-uk">
-                    Нескінченні світи — одна платформа. Пірнай у текстову RPG,
-                    де кожен всесвіт живе за своїми правилами.
-                    <span class="bio-accent">Обирай світ, створюй героя, пиши свою історію.</span>
-                </p>
                 <p class="bio lang-en">
                     Infinite worlds, one platform. Dive into a multi-universe text RPG
                     where every reality plays by its own rules.
                     <span class="bio-accent">Pick a world, build a hero, write your own story.</span>
                 </p>
+                <p class="bio lang-uk">
+                    Нескінченні світи — одна платформа. Пірнай у текстову RPG,
+                    де кожен всесвіт живе за своїми правилами.
+                    <span class="bio-accent">Обирай світ, створюй героя, пиши свою історію.</span>
+                </p>
 
                 <div class="chips">
-                    <span class="chip"><i class="fas fa-dice-d20"></i><span class="lang-uk">Текстова RPG</span><span
-                            class="lang-en">Text RPG</span></span>
-                    <span class="chip"><i class="fas fa-infinity"></i><span class="lang-uk">Мультивсесвіт</span><span
-                            class="lang-en">Multiverse</span></span>
+                    <span class="chip"><i class="fas fa-dice-d20"></i><span class="lang-en">Text RPG</span><span
+                            class="lang-uk">Текстова RPG</span></span>
+                    <span class="chip"><i class="fas fa-infinity"></i><span class="lang-en">Multiverse</span><span
+                            class="lang-uk">Мультивсесвіт</span></span>
                 </div>
 
                 <div class="profile-actions">
                     <a href="https://t.me/multiverseadministrtor" class="btn-small" target="_blank" rel="noopener">
                         <i class="fas fa-paper-plane"></i>
-                        <span class="lang-uk">Написати адміну</span>
                         <span class="lang-en">Message the admin</span>
+                        <span class="lang-uk">Написати адміну</span>
                     </a>
                 </div>
             </section>
@@ -100,10 +106,10 @@
                 <a href="https://t.me/AnyWorldBot" class="btn-play" target="_blank" rel="noopener">
                     <span class="play-icon tg"><i class="fab fa-telegram"></i></span>
                     <span class="btn-text">
-                        <span class="btn-title lang-uk">Грати в Telegram</span>
                         <span class="btn-title lang-en">Play in Telegram</span>
-                        <span class="btn-subtitle lang-uk">Запустити бота @AnyWorldBot</span>
+                        <span class="btn-title lang-uk">Грати в Telegram</span>
                         <span class="btn-subtitle lang-en">Launch the @AnyWorldBot bot</span>
+                        <span class="btn-subtitle lang-uk">Запустити бота @AnyWorldBot</span>
                     </span>
                     <i class="fas fa-chevron-right arrow-icon"></i>
                 </a>
@@ -112,10 +118,10 @@
                 <a href="https://t.me/AnyWorldBot" class="btn-play" target="_blank" rel="noopener">
                     <span class="play-icon web"><i class="fas fa-globe"></i></span>
                     <span class="btn-text">
-                        <span class="btn-title lang-uk">Грати у веб</span>
                         <span class="btn-title lang-en">Play on the web</span>
-                        <span class="btn-subtitle lang-uk">Та сама гра прямо в браузері</span>
+                        <span class="btn-title lang-uk">Грати у веб</span>
                         <span class="btn-subtitle lang-en">The same game right in your browser</span>
+                        <span class="btn-subtitle lang-uk">Та сама гра прямо в браузері</span>
                     </span>
                     <i class="fas fa-chevron-right arrow-icon"></i>
                 </a>
@@ -126,10 +132,10 @@
                 <a href="https://t.me/anyworldmultiverse" class="link-card" target="_blank" rel="noopener">
                     <span class="card-icon tg-group"><i class="fas fa-users"></i></span>
                     <span class="card-content">
-                        <span class="card-title lang-uk">Спільнота Multiverse</span>
                         <span class="card-title lang-en">Multiverse Community</span>
-                        <span class="card-sub lang-uk">Новини, гайди та обговорення гри</span>
+                        <span class="card-title lang-uk">Спільнота Multiverse</span>
                         <span class="card-sub lang-en">News, guides and game discussions</span>
+                        <span class="card-sub lang-uk">Новини, гайди та обговорення гри</span>
                     </span>
                     <i class="fas fa-chevron-right external-icon"></i>
                 </a>
@@ -137,8 +143,8 @@
                 <a href="https://t.me/multiverseadministrtor" class="link-card" target="_blank" rel="noopener">
                     <span class="card-icon tg-admin"><i class="fas fa-user-shield"></i></span>
                     <span class="card-content">
-                        <span class="card-title lang-uk">Звʼязок з адміністрацією</span>
                         <span class="card-title lang-en">Contact the admin</span>
+                        <span class="card-title lang-uk">Звʼязок з адміністрацією</span>
                         <span class="card-sub">@multiverseadministrtor</span>
                     </span>
                     <i class="fas fa-chevron-right external-icon"></i>
@@ -146,8 +152,8 @@
             </section>
 
             <footer class="footer animate-on-load delay-4">
-                <span class="lang-uk">The Multiverse — нескінченні світи, одна платформа</span>
                 <span class="lang-en">The Multiverse — infinite worlds, one platform</span>
+                <span class="lang-uk">The Multiverse — нескінченні світи, одна платформа</span>
             </footer>
         </main>
     </div>

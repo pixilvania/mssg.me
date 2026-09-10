@@ -147,6 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const langBtns = document.querySelectorAll('.lang-btn');
     const body = document.body;
 
+    // Мова за замовчуванням — англійська (задана в data-lang на <body>).
     // Памʼятаємо вибір мови між візитами
     const savedLang = (() => {
         try { return localStorage.getItem('mv-lang'); } catch (e) { return null; }
@@ -154,6 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function setLang(lang) {
         body.setAttribute('data-lang', lang);
+        document.documentElement.lang = lang;
         langBtns.forEach(b => b.classList.toggle('active', b.getAttribute('data-lang-target') === lang));
         try { localStorage.setItem('mv-lang', lang); } catch (e) { /* приватний режим */ }
     }
