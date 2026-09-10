@@ -34,12 +34,12 @@
     user-select: text;
 }
 
-/* Сторінка не скролиться — весь контент вміщається в один екран */
+/* Контент прагне вміститись в один екран, але якщо не влазить —
+   сторінка нормально гортається */
 html,
 body {
-    height: 100%;
-    overflow: hidden;
-    overscroll-behavior: none;
+    min-height: 100%;
+    overflow-x: hidden;
 }
 
 html {
@@ -59,8 +59,8 @@ body {
     -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none;
     -webkit-font-smoothing: antialiased;
-    /* Жодних жестів прокрутки чи зуму */
-    touch-action: none;
+    /* Вертикальне гортання дозволене, пінч-зум — ні */
+    touch-action: pan-y;
 }
 
 a {
@@ -153,8 +153,9 @@ body[data-lang="uk"] .lang-en {
 .page {
     position: relative;
     z-index: 2;
-    height: 100%;
-    overflow: hidden;
+    /* dvh враховує панелі Safari, що з'їжджають при гортанні */
+    min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
     flex-direction: column;
 }
@@ -892,15 +893,6 @@ body[data-lang="uk"] .lang-en {
 
     .container {
         margin-top: -54px;
-    }
-
-    .chips,
-    .footer {
-        display: none;
-    }
-
-    .bio-accent {
-        display: none;
     }
 }
 
