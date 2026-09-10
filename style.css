@@ -9,14 +9,14 @@
     --accent-blue: #2AABEE;
     --accent: #a37cff;
 
-    /* Скло — як було в проєкті: щільна телеграмівська панель */
-    --glass-bg: rgba(28, 28, 30, 0.92);
-    --glass-bg-hover: rgba(44, 44, 46, 0.98);
-    --glass-border: rgba(255, 255, 255, 0.08);
-    --glass-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+    /* Скло — напівпрозоре матове, як панелі в Telegram */
+    --glass-bg: rgba(24, 24, 30, 0.52);
+    --glass-bg-hover: rgba(44, 44, 46, 0.62);
+    --glass-border: rgba(255, 255, 255, 0.12);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
     --glass-radius: 18px;
 
-    --hairline: rgba(255, 255, 255, 0.05);
+    --hairline: rgba(255, 255, 255, 0.08);
 }
 
 * {
@@ -162,23 +162,29 @@ body[data-lang="en"] .lang-uk {
 }
 
 /* ============================================================
-   СКЛО (як було: щільна панель Telegram)
+   СКЛО — напівпрозоре матове (Telegram)
    ============================================================ */
 .glass {
     position: relative;
     background: var(--glass-bg);
-    backdrop-filter: blur(45px) saturate(160%);
-    -webkit-backdrop-filter: blur(45px) saturate(160%);
+    /* Матове скло: сильний блюр + насиченість, крізь панель видно фон */
+    backdrop-filter: blur(34px) saturate(180%);
+    -webkit-backdrop-filter: blur(34px) saturate(180%);
     border: 0.5px solid var(--glass-border);
-    box-shadow: var(--glass-shadow);
+    box-shadow:
+        var(--glass-shadow),
+        /* делікатна верхня фаска — матова, без глянцю */
+        inset 0 0.5px 0 rgba(255, 255, 255, 0.10);
     border-radius: var(--glass-radius);
     transition: transform 0.2s ease, background 0.2s ease;
 }
 
+/* Верхня панелька (перемикач мови) — теж скляна */
 .glass-sm {
     --glass-radius: 10px;
-    backdrop-filter: blur(40px) saturate(150%);
-    -webkit-backdrop-filter: blur(40px) saturate(150%);
+    background: rgba(24, 24, 30, 0.42);
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
 }
 
 /* ============================================================
@@ -258,7 +264,7 @@ body[data-lang="en"] .lang-uk {
 }
 
 .lang-switcher .divider {
-    color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.2);
 }
 
 /* ============================================================
@@ -355,8 +361,8 @@ body[data-lang="en"] .lang-uk {
     font-size: 12px;
     font-weight: 500;
     color: rgba(255, 255, 255, 0.85);
-    background: rgba(255, 255, 255, 0.06);
-    border: 0.5px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.08);
+    border: 0.5px solid rgba(255, 255, 255, 0.10);
 }
 
 .chip i {
@@ -381,7 +387,8 @@ body[data-lang="en"] .lang-uk {
     font-size: 15px;
     font-weight: 500;
     color: #fff;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.12);
+    border: 0.5px solid rgba(255, 255, 255, 0.10);
     transition: background 0.2s;
 }
 
@@ -391,7 +398,7 @@ body[data-lang="en"] .lang-uk {
 }
 
 .btn-small:hover {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.18);
 }
 
 /* ============================================================
@@ -417,7 +424,7 @@ body[data-lang="en"] .lang-uk {
 }
 
 .btn-play:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.07);
 }
 
 .play-icon {
@@ -490,7 +497,7 @@ body[data-lang="en"] .lang-uk {
 }
 
 .link-card:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.07);
 }
 
 .card-icon {
