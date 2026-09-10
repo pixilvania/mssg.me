@@ -1,24 +1,22 @@
 :root {
     /* Палітра з арту мультивсесвіту */
     --bg-deep: #07070e;
-    --bg-soft: #0d0d1a;
 
     --text-main: #ffffff;
-    --text-muted: rgba(235, 235, 245, 0.58);
+    --text-muted: #aaaaaa;
     --text-dim: rgba(235, 235, 245, 0.38);
 
+    --accent-blue: #2AABEE;
     --accent: #a37cff;
-    --accent-2: #45e0d0;
-    --accent-3: #ff5fa8;
-    --tg-blue: #2aabee;
 
-    /* Скло */
-    --glass-tint: rgba(255, 255, 255, 0.055);
-    --glass-tint-strong: rgba(255, 255, 255, 0.10);
-    --glass-blur: 28px;
-    --glass-radius: 22px;
+    /* Скло — як було в проєкті: щільна телеграмівська панель */
+    --glass-bg: rgba(28, 28, 30, 0.92);
+    --glass-bg-hover: rgba(44, 44, 46, 0.98);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+    --glass-radius: 18px;
 
-    --hairline: rgba(255, 255, 255, 0.07);
+    --hairline: rgba(255, 255, 255, 0.05);
 }
 
 * {
@@ -75,9 +73,7 @@ body[data-lang="en"] .lang-uk {
 }
 
 /* ============================================================
-   AMBIENT — кольорові плями під склом.
-   Саме вони роблять backdrop-filter схожим на справжнє скло:
-   блюру є що заломлювати.
+   AMBIENT — кольорові плями у фоні
    ============================================================ */
 .ambient {
     position: fixed;
@@ -153,7 +149,7 @@ body[data-lang="en"] .lang-uk {
     z-index: 2;
 }
 
-/* Ледь помітне зерно поверх усього — прибирає «пластиковість» градієнтів */
+/* Ледь помітне зерно поверх усього */
 .page::after {
     content: "";
     position: fixed;
@@ -166,77 +162,23 @@ body[data-lang="en"] .lang-uk {
 }
 
 /* ============================================================
-   СКЛО
+   СКЛО (як було: щільна панель Telegram)
    ============================================================ */
 .glass {
     position: relative;
-    isolation: isolate;
+    background: var(--glass-bg);
+    backdrop-filter: blur(45px) saturate(160%);
+    -webkit-backdrop-filter: blur(45px) saturate(160%);
+    border: 0.5px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
     border-radius: var(--glass-radius);
-    background:
-        linear-gradient(158deg,
-            rgba(255, 255, 255, 0.13) 0%,
-            rgba(255, 255, 255, 0.045) 34%,
-            rgba(255, 255, 255, 0.025) 62%,
-            rgba(255, 255, 255, 0.07) 100%);
-    backdrop-filter: blur(var(--glass-blur)) saturate(185%) brightness(1.08);
-    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(185%) brightness(1.08);
-    box-shadow:
-        /* м'яка зовнішня тінь */
-        0 18px 45px -12px rgba(0, 0, 0, 0.65),
-        0 2px 8px rgba(0, 0, 0, 0.35),
-        /* верхня фаска — головний трюк «товщини» скла */
-        inset 0 1px 0 rgba(255, 255, 255, 0.28),
-        inset 0 -1px 0 rgba(255, 255, 255, 0.06),
-        /* внутрішнє світіння по краях */
-        inset 0 0 30px rgba(255, 255, 255, 0.035);
-}
-
-/* Градієнтна рамка в 1px — світліша зверху, майже зникає знизу */
-.glass::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(160deg,
-            rgba(255, 255, 255, 0.42) 0%,
-            rgba(255, 255, 255, 0.10) 28%,
-            rgba(255, 255, 255, 0.04) 60%,
-            rgba(255, 255, 255, 0.16) 100%);
-    -webkit-mask:
-        linear-gradient(#000 0 0) content-box,
-        linear-gradient(#000 0 0);
-    mask:
-        linear-gradient(#000 0 0) content-box,
-        linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-    z-index: 2;
-}
-
-/* Відблиск (specular) у верхньому лівому куті — як на реальній лінзі */
-.glass::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background:
-        radial-gradient(120% 80% at 8% -10%, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0) 55%),
-        radial-gradient(70% 50% at 95% 105%, rgba(163, 124, 255, 0.10) 0%, rgba(163, 124, 255, 0) 70%);
-    pointer-events: none;
-    z-index: 1;
-    mix-blend-mode: screen;
-}
-
-.glass>* {
-    position: relative;
-    z-index: 3;
+    transition: transform 0.2s ease, background 0.2s ease;
 }
 
 .glass-sm {
-    --glass-radius: 12px;
-    --glass-blur: 20px;
+    --glass-radius: 10px;
+    backdrop-filter: blur(40px) saturate(150%);
+    -webkit-backdrop-filter: blur(40px) saturate(150%);
 }
 
 /* ============================================================
@@ -296,30 +238,27 @@ body[data-lang="en"] .lang-uk {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 7px 13px;
+    padding: 6px 12px;
 }
 
 .lang-btn {
     background: none;
     border: none;
-    color: var(--text-dim);
+    color: var(--text-muted);
     font-family: inherit;
-    font-weight: 600;
-    font-size: 12px;
-    letter-spacing: 0.4px;
+    font-weight: 500;
+    font-size: 13px;
     cursor: pointer;
-    transition: color 0.2s ease;
+    transition: color 0.2s;
     outline: none;
 }
 
 .lang-btn.active {
     color: #fff;
-    text-shadow: 0 0 12px rgba(163, 124, 255, 0.8);
 }
 
 .lang-switcher .divider {
-    color: rgba(255, 255, 255, 0.14);
-    font-size: 12px;
+    color: rgba(255, 255, 255, 0.1);
 }
 
 /* ============================================================
@@ -334,41 +273,34 @@ body[data-lang="en"] .lang-uk {
     padding: 0 16px calc(48px + env(safe-area-inset-bottom)) 16px;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 16px;
 }
 
 /* ============================================================
    ПРОФІЛЬ
    ============================================================ */
 .profile-card {
-    padding: 20px 18px 18px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    gap: 16px;
 }
 
 .profile-header {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 16px;
 }
 
 .avatar-container {
     position: relative;
     flex-shrink: 0;
-    padding: 3px;
-    border-radius: 50%;
-    background: linear-gradient(150deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.06) 45%, rgba(163, 124, 255, 0.45));
-    box-shadow:
-        0 8px 22px rgba(90, 40, 160, 0.45),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .avatar {
     display: block;
-    width: 76px;
-    height: 76px;
+    width: 72px;
+    height: 72px;
     border-radius: 50%;
     object-fit: cover;
     background: #0b0b16;
@@ -377,28 +309,27 @@ body[data-lang="en"] .lang-uk {
 .profile-info {
     display: flex;
     flex-direction: column;
-    gap: 3px;
     min-width: 0;
 }
 
 .name {
-    font-size: 23px;
-    font-weight: 700;
-    letter-spacing: -0.6px;
-    line-height: 1.1;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    margin-bottom: 2px;
 }
 
 .nickname {
-    font-size: 13.5px;
-    font-weight: 500;
-    color: var(--accent-2);
-    letter-spacing: 0.1px;
+    font-size: 13px;
+    color: var(--accent-blue);
+    margin-bottom: 6px;
 }
 
 .bio {
-    font-size: 14.5px;
-    line-height: 1.5;
-    color: rgba(255, 255, 255, 0.86);
+    font-size: 14px;
+    color: var(--text-main);
+    line-height: 1.4;
+    font-weight: 400;
 }
 
 .bio-accent {
@@ -412,32 +343,31 @@ body[data-lang="en"] .lang-uk {
 .chips {
     display: flex;
     flex-wrap: wrap;
-    gap: 7px;
+    gap: 8px;
 }
 
 .chip {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 6px 10px;
-    border-radius: 999px;
+    padding: 6px 11px;
+    border-radius: 10px;
     font-size: 12px;
     font-weight: 500;
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.85);
     background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.09);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+    border: 0.5px solid var(--glass-border);
 }
 
 .chip i {
     font-size: 11px;
-    color: var(--accent);
+    color: var(--accent-blue);
 }
 
 /* Кнопка «написати» */
 .profile-actions {
     display: flex;
-    margin-top: 2px;
+    margin-top: 4px;
 }
 
 .btn-small {
@@ -445,25 +375,23 @@ body[data-lang="en"] .lang-uk {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 9px;
-    padding: 13px 16px;
-    border-radius: 14px;
+    gap: 8px;
+    padding: 12px 16px;
+    border-radius: 12px;
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 500;
     color: #fff;
-    background: linear-gradient(160deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.06));
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24);
-    transition: background 0.2s ease, transform 0.15s ease;
+    background: rgba(255, 255, 255, 0.1);
+    transition: background 0.2s;
 }
 
 .btn-small i {
     font-size: 13px;
-    color: var(--accent-2);
+    color: var(--accent-blue);
 }
 
 .btn-small:hover {
-    background: linear-gradient(160deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.1));
+    background: rgba(255, 255, 255, 0.15);
 }
 
 /* ============================================================
@@ -476,15 +404,16 @@ body[data-lang="en"] .lang-uk {
 }
 
 .btn-play {
+    color: #fff;
     display: flex;
     align-items: center;
     gap: 14px;
-    padding: 15px 18px;
-    transition: background 0.2s ease;
+    padding: 16px 20px;
+    transition: background 0.2s;
 }
 
 .btn-play+.btn-play {
-    border-top: 1px solid var(--hairline);
+    border-top: 0.5px solid var(--hairline);
 }
 
 .btn-play:hover {
@@ -493,25 +422,19 @@ body[data-lang="en"] .lang-uk {
 
 .play-icon {
     flex-shrink: 0;
-    width: 42px;
-    height: 42px;
-    border-radius: 13px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 19px;
-    color: #fff;
-    box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.35),
-        0 6px 16px -6px rgba(0, 0, 0, 0.8);
+    width: 26px;
+    font-size: 24px;
 }
 
 .play-icon.tg {
-    background: linear-gradient(160deg, #37bbfe, #007dbb);
+    color: var(--accent-blue);
 }
 
 .play-icon.web {
-    background: linear-gradient(160deg, #b18bff, #6c3fd6);
+    color: #AF52DE;
 }
 
 .btn-text {
@@ -524,12 +447,11 @@ body[data-lang="en"] .lang-uk {
 
 .btn-title {
     font-size: 16px;
-    font-weight: 600;
-    letter-spacing: -0.2px;
+    font-weight: 500;
 }
 
 .btn-subtitle {
-    font-size: 12.5px;
+    font-size: 13px;
     color: var(--text-muted);
     line-height: 1.3;
 }
@@ -537,15 +459,13 @@ body[data-lang="en"] .lang-uk {
 .arrow-icon,
 .external-icon {
     flex-shrink: 0;
-    color: var(--text-dim);
-    font-size: 13px;
-    transition: transform 0.2s ease, color 0.2s ease;
+    color: var(--text-muted);
+    font-size: 14px;
 }
 
 .btn-play:hover .arrow-icon,
 .link-card:hover .external-icon {
-    color: rgba(255, 255, 255, 0.75);
-    transform: translateX(2px);
+    color: rgba(255, 255, 255, 0.7);
 }
 
 /* ============================================================
@@ -561,12 +481,12 @@ body[data-lang="en"] .lang-uk {
     display: flex;
     align-items: center;
     gap: 14px;
-    padding: 14px 18px;
-    transition: background 0.2s ease;
+    padding: 14px 16px;
+    transition: background 0.2s;
 }
 
 .link-card+.link-card {
-    border-top: 1px solid var(--hairline);
+    border-top: 0.5px solid var(--hairline);
 }
 
 .link-card:hover {
@@ -575,25 +495,23 @@ body[data-lang="en"] .lang-uk {
 
 .card-icon {
     flex-shrink: 0;
-    width: 36px;
-    height: 36px;
-    border-radius: 11px;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 15px;
+    font-size: 16px;
     color: #fff;
-    box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.32),
-        0 5px 14px -6px rgba(0, 0, 0, 0.8);
 }
 
+/* Telegram-кольори іконок */
 .tg-group {
-    background: linear-gradient(160deg, #4ce0a8, #12a37a);
+    background: #34C759;
 }
 
 .tg-admin {
-    background: linear-gradient(160deg, #ff85b6, #d13c85);
+    background: #AF52DE;
 }
 
 .card-content {
@@ -606,15 +524,14 @@ body[data-lang="en"] .lang-uk {
 
 .card-title {
     font-size: 15px;
-    font-weight: 600;
-    letter-spacing: -0.1px;
+    font-weight: 500;
     color: #fff;
 }
 
 .card-sub {
-    font-size: 12.5px;
+    font-size: 13px;
     color: var(--text-muted);
-    line-height: 1.3;
+    line-height: 1.2;
 }
 
 /* ============================================================
@@ -633,13 +550,14 @@ body[data-lang="en"] .lang-uk {
    ============================================================ */
 .animate-on-load {
     opacity: 0;
-    animation: fadeUp 0.85s cubic-bezier(0.2, 0.85, 0.25, 1) forwards;
+    transform: translateY(40px) scale(0.98);
+    animation: fadeUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
 @keyframes fadeUp {
     from {
         opacity: 0;
-        transform: translateY(26px) scale(0.985);
+        transform: translateY(40px) scale(0.98);
     }
 
     to {
@@ -649,29 +567,29 @@ body[data-lang="en"] .lang-uk {
 }
 
 .delay-1 {
-    animation-delay: 0.08s;
+    animation-delay: 0.1s;
 }
 
 .delay-2 {
-    animation-delay: 0.18s;
+    animation-delay: 0.2s;
 }
 
 .delay-3 {
-    animation-delay: 0.28s;
+    animation-delay: 0.3s;
 }
 
 .delay-4 {
-    animation-delay: 0.38s;
+    animation-delay: 0.4s;
 }
 
-/* Тактильне натискання */
+/* Анімація натискання (як було) */
 .link-card:active,
 .btn-play:active,
 .btn-small:active,
 .lang-btn:active {
-    transform: scale(0.985);
-    filter: brightness(1.15);
-    transition: transform 0.08s ease-out, filter 0.08s ease-out;
+    transform: scale(0.97);
+    filter: brightness(1.2);
+    transition: transform 0.1s ease-out, filter 0.1s ease-out;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -679,11 +597,11 @@ body[data-lang="en"] .lang-uk {
     .animate-on-load,
     .blob {
         animation: none;
-        opacity: 1;
     }
 
-    .blob {
-        opacity: 0.5;
+    .animate-on-load {
+        opacity: 1;
+        transform: none;
     }
 }
 
@@ -695,10 +613,6 @@ body[data-lang="en"] .lang-uk {
 
     .container {
         margin-top: -74px;
-    }
-
-    .name {
-        font-size: 21px;
     }
 
     .avatar {

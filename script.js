@@ -125,16 +125,16 @@ if (window.matchMedia('(hover: hover)').matches) {
         document.querySelectorAll('.tilt').forEach(element => {
             element.addEventListener('mousemove', e => {
                 const rect = element.getBoundingClientRect();
-                const rotateX = ((e.clientY - rect.top - rect.height / 2) / (rect.height / 2)) * -3.5;
-                const rotateY = ((e.clientX - rect.left - rect.width / 2) / (rect.width / 2)) * 3.5;
+                const rotateX = ((e.clientY - rect.top - rect.height / 2) / (rect.height / 2)) * -5;
+                const rotateY = ((e.clientX - rect.left - rect.width / 2) / (rect.width / 2)) * 5;
                 element.style.transition = 'none';
                 element.style.transform =
-                    `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.012, 1.012, 1.012)`;
+                    `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
             });
 
             element.addEventListener('mouseleave', () => {
-                element.style.transition = 'transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)';
-                element.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+                element.style.transition = 'transform 0.5s ease-out';
+                element.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
             });
         });
     }, 1400);
